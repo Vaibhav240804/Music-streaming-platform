@@ -1,1 +1,1 @@
-# Music-steaming-platform
+# Music-streaming-platform
