@@ -21,7 +21,7 @@
     />
   </head>
   <body>
-    <div class="container">
+    <div class="container d-flex flex-column justify-content-evenly vh-100 p-4">
       <!-- Pills navs -->
       <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
         <li class="nav-item" role="presentation">
@@ -60,9 +60,7 @@
           aria-labelledby="tab-login"
         >
           <form>
-            <div class="text-center mb-3">
-              
-            </div>
+            <div class="text-center mb-3"></div>
 
             <!-- Email input -->
             <div class="form-outline mb-4">
@@ -109,7 +107,10 @@
 
             <!-- Register buttons -->
             <div class="text-center">
-              <p>Don't have admin access? Go to user login <a href="/loginuser">Login as a User</a></p>
+              <p>
+                Don't have admin access? Go to user login
+                <a href="/loginuser">Login as a User</a>
+              </p>
             </div>
           </form>
         </div>
@@ -120,9 +121,7 @@
           aria-labelledby="tab-register"
         >
           <form>
-            <div class="text-center mb-3">
-              
-            </div>
+            <div class="text-center mb-3"></div>
             <!-- Name input -->
             <div class="form-outline mb-4">
               <input type="text" id="registerName" class="form-control" />
