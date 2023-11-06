@@ -79,5 +79,10 @@ def get_user(username):
 def adminlogin():
     return render_template("loginAdmin.html")
 
+@app.route("/home")
+def homepage():
+    return render_template("home.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)
