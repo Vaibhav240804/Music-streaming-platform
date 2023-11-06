@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User Login</title>
+    <title>Admin Login</title>
     <!-- Font Awesome -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -21,7 +21,7 @@
     />
   </head>
   <body>
-    <div class="container vh-100 p-4">
+    <div class="container d-flex flex-column justify-content-evenly vh-100 p-4">
       <!-- Pills navs -->
       <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
         <li class="nav-item" role="presentation">
@@ -60,8 +60,8 @@
           aria-labelledby="tab-login"
         >
           <form>
-            <div class="text-center mb-3">
-              
+            <div class="text-center mb-3"></div>
+
             <!-- Email input -->
             <div class="form-outline mb-4">
               <input type="email" id="loginName" class="form-control" />
@@ -107,7 +107,10 @@
 
             <!-- Register buttons -->
             <div class="text-center">
-              <p>Not a member? <a href="#!">Register</a></p>
+              <p>
+                Don't have admin access? Go to user login
+                <a href="/loginuser">Login as a User</a>
+              </p>
             </div>
           </form>
         </div>
@@ -118,27 +121,7 @@
           aria-labelledby="tab-register"
         >
           <form>
-            <div class="text-center mb-3">
-              <p>Sign up with:</p>
-              <button type="button" class="btn btn-link btn-floating mx-1">
-                <i class="fab fa-facebook-f"></i>
-              </button>
-
-              <button type="button" class="btn btn-link btn-floating mx-1">
-                <i class="fab fa-google"></i>
-              </button>
-
-              <button type="button" class="btn btn-link btn-floating mx-1">
-                <i class="fab fa-twitter"></i>
-              </button>
-
-              <button type="button" class="btn btn-link btn-floating mx-1">
-                <i class="fab fa-github"></i>
-              </button>
-            </div>
-
-            <p class="text-center">or:</p>
-
+            <div class="text-center mb-3"></div>
             <!-- Name input -->
             <div class="form-outline mb-4">
               <input type="text" id="registerName" class="form-control" />
