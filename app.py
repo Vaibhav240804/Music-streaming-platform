@@ -1,11 +1,10 @@
-from flask import Flask, jsonify, redirect, render_template, request
 import sqlite3
-import os
-
-currentdirectory = os.path.dirname(os.path.abspath(__file__))
+from flask import Flask, jsonify, redirect, render_template, request
 
 app = Flask(__name__)
 app.static_folder = 'static'
+
+
 # Route for displaying the user login page
 @app.route("/loginuser")
 def userlogin():
@@ -84,6 +83,7 @@ def get_user(username):
 @app.route("/loginadmin")
 def adminlogin():
     return render_template("loginAdmin.html")
+
 
 @app.route("/home")
 def homepage():
