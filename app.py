@@ -5,7 +5,7 @@ import os
 currentdirectory = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
-
+app.static_folder = 'static'
 # Route for displaying the user login page
 @app.route("/loginuser")
 def userlogin():
@@ -46,6 +46,12 @@ def register_user():
     return redirect("/loginuser")
 
 # Route for retrieving user information based on username
+
+@app.route("/play",methods=["GET"])
+def lyrics():
+    return render_template("lyricsnplay.html")
+
+
 @app.route("/getuser/loginuser", methods=["GET"])
 def get_user(username):
     # Connect to the database
