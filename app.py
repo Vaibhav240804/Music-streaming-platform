@@ -46,10 +46,13 @@ def register_user():
 
 # Route for retrieving user information based on username
 
-@app.route("/play",methods=["GET"])
+@app.route("/",methods=["GET"])
 def lyrics():
     return render_template("lyricsnplay.html")
 
+@app.route("/play",methods=["GET"])
+def play():
+    return render_template("lyricsnplay.html")
 
 @app.route("/getuser/loginuser", methods=["GET"])
 def get_user(username):

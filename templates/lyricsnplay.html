@@ -4,7 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lyrics and ratings</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lyrical.css') }}">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='lyrical.css') }}"
+    />
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
@@ -19,33 +23,26 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css"
       rel="stylesheet"
     />
-    
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='global.css') }}"
+    />
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-mdb-toggle="collapse"
-          data-mdb-target="#navbarTogglerDemo03"
-          aria-controls="navbarTogglerDemo03"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <i class="fas fa-bars"></i>
-        </button>
-        <a class="navbar-brand" href="#">Navbar</a>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link active" aria-current="page" href="/home"
+                >Home</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+              <a class="nav-link active" href="/creator">Creator account</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled">Disabled</a>
+              <a class="nav-link active">Log out</a>
             </li>
           </ul>
           <form class="d-flex input-group w-auto">
@@ -66,8 +63,15 @@
         </div>
       </div>
     </nav>
-
-  <div class="w-60 container bg-secondary bg-gradient text-white border border-dark rounded mx-auto p-4">
+    <div class="min-vh-100 vw-100 d-flex flex-column align-items-center justify-content-center">
+      <div class="w-60 container text-white border border-dark rounded mx-auto p-4" 
+      style="
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(14.3px);
+        -webkit-backdrop-filter: blur(14.3px);
+        border: 1px solid rgba(255, 255, 255, 1);">
         <div class="d-flex flex-row align-items-center justify-content-between p-2 border border-secondary rounded">
         <div
         class="d-flex flex-column align-items-center justify-content-between p-2"
@@ -106,12 +110,12 @@
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores necessitatibus voluptates ducimus incidunt illum velit provident ut labore fugiat magni repudiandae atque, beatae nam corporis cupiditate eaque, eius voluptate earum nisi. Consequuntur eum nesciunt minus quibusdam. Provident ab mollitia debitis iure qui velit odio rerum nihil. Porro corporis accusamus ex? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae suscipit, reiciendis error ea, deleniti corporis dolore optio minus illo harum exercitationem natus fuga maiores doloremque quam neque, tempore consequuntur saepe? Dolores minima consequuntur voluptate est eius dicta eligendi laboriosam, sed, quo ex laudantium ipsum enim ut! Aspernatur, fuga doloremque nisi architecto laboriosam possimus consectetur ullam impedit omnis velit. Ipsum blanditiis molestias fugit dolores! Voluptas sunt rerum fugiat quis ipsam quod maiores! Voluptate perspiciatis eum incidunt inventore consequuntur aliquid beatae quae doloremque dignissimos mollitia architecto possimus tenetur, optio itaque expedita dolorem placeat ab provident quia, quo dolores harum ad? Temporibus, dolores?
       </div>
       <div></div>
-</div>
-
-<script src="{{ url_for('static', filename='lyrical.js') }}"></script>
-<script
-type="text/javascript"
-src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
-></script>
-</body>
+    </div>
+    </div>
+    <script src="{{ url_for('static', filename='lyrical.js') }}"></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
+    ></script>
+  </body>
 </html>
