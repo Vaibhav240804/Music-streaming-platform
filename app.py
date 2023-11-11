@@ -54,6 +54,19 @@ def lyrics():
 def play():
     return render_template("lyricsnplay.html")
 
+@app.route("/admin",methods=["GET"])
+def admin():
+    return render_template("admin.html")
+
+@app.route("/creator",methods=["GET"])
+def creator():
+    return render_template("creator.html")
+
+@app.route("/tracklist",methods=["GET"])
+def tracklist():
+    return render_template("adminflag.html")
+
+
 @app.route("/getuser/loginuser", methods=["GET"])
 def get_user(username):
     # Connect to the database
