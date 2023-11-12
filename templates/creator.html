@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -18,62 +18,73 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
-    
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='global.css') }}"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Music stream</a>
+        <a class="navbar-brand" href="#">Creators account</a>
         <button
           class="navbar-toggler"
           type="button"
           data-mdb-toggle="collapse"
-          data-mdb-target="#navbarTogglerDemo02"
-          aria-controls="navbarTogglerDemo02"
+          data-mdb-target="#navbarText"
+          aria-controls="navbarText"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <i class="fas fa-bars"></i>
         </button>
-        <div
-          class="collapse navbar-collapse px-2"
-          id="navbarTogglerDemo02"
-          style="color: whitesmoke"
-        >
+        <div class="collapse navbar-collapse" id="navbarText">
+          <span class="navbar-text"></span>
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Home</a>
+              <a class="nav-link active" aria-current="page" href="/home"
+                >Home</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/creator">Creators account</a>
+              <a class="nav-link active" href="/uploadsong">Upload song</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link">log out</a>
+              <a class="nav-link active" href="#">User account</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/creatorsdash">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Log out</a>
             </li>
           </ul>
-          <form class="d-flex input-group w-auto">
-            <input
-              type="search"
-              class="form-control"
-              placeholder="Type query"
-              aria-label="Search"
-            />
-            <button
-              class="btn btn-outline-primary"
-              type="button"
-              data-mdb-ripple-color="dark"
-            >
-              Search
-            </button>
-          </form>
         </div>
       </div>
     </nav>
-    
-     <script
+    <main
+      class="vw-100 vh-100 d-flex flex-column align-items-center justify-content-center"
+    >
+      <div
+        class="w-100 d-flex flex-column align-items-center justify-content-evenly"
+        style="height: 60%"
+      >
+        <h1>Kick start your journey as creator</h1>
+        <h1>Start with uploading songs</h1>
+        <span></span>
+        <a
+          class="btn text-white btn-rounded p-4"
+          style="background-color: #25d366"
+          href="/uploadsong"
+          role="button"
+        >
+          <i class="fas fa-plus m-4"></i>
+        </a>
+      </div>
+    </main>
+    <script
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
     ></script>
-</body>
+  </body>
 </html>
