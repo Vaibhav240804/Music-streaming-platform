@@ -44,7 +44,22 @@ def register_user():
     # Redirect to login page after successful registration
     return redirect("/loginuser")
 
+
 # Route for retrieving user information based on username
+
+@app.route("/usercreatesalbum", methods=["GET","POST"])
+def create_album():
+    if request.method == "GET":
+        return render_template("usercreatesalbum.html")
+    else:
+        return render_template("usercreatesalbum.html")
+
+@app.route("/userfetchesalbum", methods=["GET","POST"])
+def fetch_album():
+    if request.method == "GET":
+        return render_template("userfetchesalbum.html")
+    else:
+        return render_template("userfetchesalbum.html")
 
 @app.route("/",methods=["GET"])
 def lyrics():
