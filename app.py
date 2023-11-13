@@ -106,10 +106,28 @@ def lyrics():
 
 
 @app.route("/uploadsong", methods=["GET", "POST"])
-def upload():
-    if request.method == "GET":
-        return render_template("uploadsong.html")
-    else:
+def uploadSong():
+    if request.method == "POST":
+        title = request.form["title"]
+        artist = request.form["artist"]
+        duration = request.form["duration"]
+        date = request.form["date"]
+        lyrics = request.form["lyrics"]
+
+        data = cursor.fetchone()
+        if data:
+            return render_template("uploadsong.html")
+        else:
+            if not data:
+                cursor.execute(
+                    "INSERT INTO uploadsong (title, artist, duration, date, lyrics, isAdmin) VALUES (?,?,?,?,?,0)",
+                    (title, artist, duration, date, lyrics),
+                )
+                conn.commit()
+                # conn.close()
+                return render_template("home.html")
+
+    elif request.method == "GET":
         return render_template("uploadsong.html")
 
 

@@ -6,7 +6,7 @@ cursor = conn.cursor()
 
 # -------- user login register ---------
 # sql_query = """CREATE TABLE user(
-# name text, 
+# name text,
 # username text,
 # email text,
 # password text,
@@ -16,14 +16,30 @@ cursor = conn.cursor()
 
 # --------- admin login register----------
 # sql_query = """CREATE TABLE admin(
-# name text, 
+# name text,
 # username text,
 # email text,
 # password text,
 # isAdmin int
 # )"""
 
-# cursor.execute(sql_query)
-cursor.execute("INSERT INTO admin VALUES ('adii', 'adii123', 'test@gmail.com', '123', 1)")
 
-conn.commit()
+# -------upload song ---------
+# duration is in seconds
+
+sql_query = """CREATE TABLE uploadsong(
+title text,
+artist text,
+duration int,
+date text,
+lyrics text,
+isAdmin int
+)"""
+
+# cursor.execute("DROP TABLE IF EXISTS uploadsong")
+cursor.execute(sql_query)
+# cursor.execute(
+#     "INSERT INTO uploadsong VALUES ('Song Title', 'Artist Name', 240, '2023-11-13', 'Lyrics go here', 0)"
+# )
+
+# conn.commit()

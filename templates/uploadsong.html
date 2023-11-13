@@ -64,7 +64,7 @@
       class="vw-100 min-vh-100 d-flex flex-column align-items-center justify-content-center"
     >
       <div class="w-50">
-        <form>
+        <form method="post" action="/uploadsong">
           <!-- Name input -->
           <div class="form-outline mb-4" style="color: whitesmoke">
             <input
@@ -85,8 +85,23 @@
           <!-- Email input -->
           <div class="form-outline mb-4" style="color: whitesmoke">
             <input
+            type="text"
+              name="artist"
+              id="form5Example2"
+              class="form-control p-2"
+              style="color: whitesmoke"
+              />
+              <label
+              class="form-label"
+              for="form5Example2"
+              style="color: whitesmoke"
+              >Artist</label
+              >
+            </div>
+            <div class="form-outline mb-4" style="color: whitesmoke">
+              <input
               type="text"
-              name="singer"
+              name="duration"
               id="form5Example2"
               class="form-control p-2"
               style="color: whitesmoke"
@@ -95,9 +110,9 @@
               class="form-label"
               for="form5Example2"
               style="color: whitesmoke"
-              >Singer</label
+              >Duration</label
             >
-          </div>
+            </div>
           <div class="form-outline mb-4" style="color: whitesmoke">
             <input
               type="date"
@@ -117,6 +132,7 @@
             <textarea
               class="form-control"
               id="form6Example7"
+              name="lyrics"
               rows="4"
               style="color: whitesmoke"
               name="lyrics"
