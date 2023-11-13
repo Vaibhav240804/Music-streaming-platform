@@ -1,6 +1,7 @@
 import sqlite3
-from flask import Flask, jsonify, redirect, render_template, request
+from flask import Flask, jsonify, redirect, render_template, request, send_from_directory
 import sqlite3
+import os
 
 app = Flask(__name__)
 app.static_folder = "static"
@@ -18,6 +19,7 @@ cursor = conn.cursor()
 # Route for handling user registration
 app = Flask(__name__)
 
+app.config['UPLOAD_FOLDER'] = 'uploads'
 
 @app.route("/", methods=["GET"])
 def index():
@@ -110,7 +112,19 @@ def upload():
     if request.method == "GET":
         return render_template("uploadsong.html")
     else:
-        return render_template("uploadsong.html")
+        if 'file' not in request.files:
+            return 'No file part'
+
+        file = request.files['file']
+        if file.filename == '':
+            return render_template("uploadsong.html", error="No file selected")
+
+        if file:
+            filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(filename)
+            return render_template("uploadsong.html", message="File uploaded successfully")
+        
+
 
 
 @app.route("/creatorsdash", methods=["GET"])
@@ -118,10 +132,14 @@ def creatorsdash():
     return render_template("creatordash.html")
 
 
+@app.route("/uploads/<filename>", methods=["GET"])
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+
 @app.route("/play", methods=["GET"])
 def play():
     return render_template("lyricsnplay.html")
-
 
 @app.route("/admin", methods=["GET"])
 def admin():

@@ -64,7 +64,7 @@
       class="vw-100 min-vh-100 d-flex flex-column align-items-center justify-content-center"
     >
       <div class="w-50">
-        <form>
+        <form action="/uploadsong" method="post" enctype="multipart/form-data">
           <!-- Name input -->
           <div class="form-outline mb-4" style="color: whitesmoke">
             <input
@@ -113,6 +113,21 @@
               >Date</label
             >
           </div>
+          <div class="form-outline mb-4" style="color: whitesmoke">
+            <input
+              id="file"
+              class="form-control p-2"
+              style="color: whitesmoke"
+              type="file" name="file" accept=".mp3" required
+              
+            />
+            <!-- <label
+              class="form-label"
+              for="form5Example2"
+              style="color: whitesmoke"
+              >Select .MP3 file</label
+            > -->
+          </div>
           <div class="form-outline mb-4">
             <textarea
               class="form-control"
@@ -135,6 +150,12 @@
           >
             Upload
           </button>
+          {% if error %}
+          <p style="color: red">{{ error }}</p>
+          {% endif %}
+          {% if message %}
+          <p style="color: green">{{ message }}</p>
+          {% endif %}
         </form>
       </div>
     </main>

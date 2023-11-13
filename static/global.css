@@ -57,3 +57,31 @@ body::-webkit-scrollbar-thumb:hover {
   -webkit-backdrop-filter: blur(10.6px);
   border: 1px solid rgba(255, 255, 255, 1);
 }
+.custom-audio {
+  width: 40%;
+  margin-top: 10px;
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.custom-audio:hover {
+  background-color: #e0e0e0;
+}
+
+.custom-audio::-webkit-media-controls {
+  background-color: #f2f2f2;
+}
+
+.custom-audio::-webkit-media-controls-play-button {
+  color: #007bff;
+}
+
+.custom-audio::-webkit-media-controls-volume-slider {
+  background-color: #ddd;
+}
+
+.custom-audio::-webkit-media-controls-timeline {
+  background-color: #ddd;
+}
