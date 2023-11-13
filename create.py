@@ -1,6 +1,17 @@
 import sqlite3
 
-connection = sqlite3.connect("user_data.db")
-cursor = connection.cursor()
+conn = sqlite3.connect("user_data.db")
 
-command = """CREATE TABLE IF NOT EXISTS users(name TEXT, username TEXT, email TEXT, password TEXT)"""
+cursor = conn.cursor()
+
+# sql_query = """CREATE TABLE user(
+# name text, 
+# username text,
+# email text,
+# password text
+# )"""
+
+# cursor.execute(sql_query)
+cursor.execute("INSERT INTO user VALUES ('adii', 'adii123', 'test@gmail.com', '123')")
+
+conn.commit()
