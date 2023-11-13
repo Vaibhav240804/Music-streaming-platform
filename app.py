@@ -49,14 +49,6 @@ def login_user():
 
 
 @app.route("/registeruser", methods=["GET", "POST"])
-# def check_if_exists(field, value):
-#     query = f"SELECT COUNT(*) FROM user WHERE {field} = {value}"
-#     cursor.execute(query, (value,))
-#     result = cursor.fetchone()
-#     count = result[0]
-#     return count
-
-
 def register_user():
     if request.method == "POST":
         # name = request.form["name"]
@@ -75,80 +67,53 @@ def register_user():
             data = cursor.fetchone()
 
             if data:
-                return render_template("loginuser.html")
+                return render_template("loginUser.html")
             else:
                 if not data:
                     cursor.execute(
-                        "INSERT INTO user (name, username, email, password) VALUES (?,?,?,?)",
+                        "INSERT INTO user (name, username, email, password, isAdmin) VALUES (?,?,?,?,0)",
                         (name, username, email, password),
                     )
                     conn.commit()
-                    conn.close()
-                    return render_template("loginuser.html")
-        # # Check if username or email already exists
-        # username_exists = check_if_exists("username", username)
-        # email_exists = check_if_exists("email", email)
-
-        # if username_exists > 0:
-        #     print("Username already exists")
-        #     return render_template(
-        #         "loginUser.html", error_message="Username already exists"
-        #     )
-        # elif email_exists > 0:
-        #     print("Email already exists")
-        #     return render_template(
-        #         "loginUser.html", error_message="Email already exists"
-        #     )
-        # else:
-        #     try:
-        #         # Insert user data into the database using a parameterized query
-        #         query = "INSERT INTO user (name, username, email, password) VALUES (%s, %s, %s, %s)"
-        #         cursor.execute(query, (name, username, email, password))
-        #         conn.commit()
-
-        #         print("User registered successfully")
-        #         return redirect("/")
-        #     except Exception as e:
-        #         print(f"Error registering user: {e}")
-        #         return render_template(
-        #             "loginUser.html", error_message="Error registering user"
-        # )
+                    # conn.close()
+                    return render_template("loginUser.html")
     elif request.method == "GET":
         return render_template("loginUser.html")
-
 
     # Redirect to login page after successful registration
     return redirect("/loginuser")
 
 
-# Route for retrieving user information based on username
-
-@app.route("/usercreatesalbum", methods=["GET","POST"])
+@app.route("/usercreatesalbum", methods=["GET", "POST"])
 def create_album():
     if request.method == "GET":
         return render_template("usercreatesalbum.html")
     else:
         return render_template("usercreatesalbum.html")
 
-@app.route("/userfetchesalbum", methods=["GET","POST"])
+
+@app.route("/userfetchesalbum", methods=["GET", "POST"])
 def fetch_album():
     if request.method == "GET":
         return render_template("userfetchesalbum.html")
     else:
         return render_template("userfetchesalbum.html")
 
-@app.route("/",methods=["GET"])
+
+@app.route("/", methods=["GET"])
 def lyrics():
     return render_template("home.html")
 
-@app.route("/uploadsong",methods=["GET","POST"])
+
+@app.route("/uploadsong", methods=["GET", "POST"])
 def upload():
     if request.method == "GET":
         return render_template("uploadsong.html")
     else:
         return render_template("uploadsong.html")
 
-@app.route("/creatorsdash",methods=["GET"])
+
+@app.route("/creatorsdash", methods=["GET"])
 def creatorsdash():
     return render_template("creatordash.html")
 
@@ -173,39 +138,64 @@ def tracklist():
     return render_template("adminflag.html")
 
 
-# @app.route("/getuser/loginuser", methods=["GET"])
-# def get_user(username):
-#     # Connect to the database
-#     connection = sqlite3.connect("Music project.db")
-#     cursor = connection.cursor()
+@app.route("/loginadmin", methods=["GET", "POST"])
+def login_admin():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
 
-#     # Prepare the SQL query
-#     query = "SELECT * FROM MUSIC-PROJECT WHERE username = ?"
+        print(username, password)
 
-#     # Fetch user information
-#     cursor.execute(query, (username,))
-#     user_data = cursor.fetchone()
+        # Check credentials against database
+        query = f"SELECT username, password from admin WHERE username = '{username}' AND password = '{password}'"
+        cursor.execute(query)
 
-#     # Close the connection
-#     connection.close()
+        results = cursor.fetchall()
+        print(results)
+        if len(results) == 0:
+            print("Sorry for the inconvenience. Wrong credentials provided")
+            return render_template("loginAdmin.html")
+        else:
+            print("Login successful!")
+            return redirect("/admin")
 
-#     # Check if user data was found
-#     if user_data:
-#         # Return user data as JSON
-#         return jsonify({
-#             "name": user_data[0],
-#             "username": user_data[1],
-#             "email": user_data[2],
-#         })
-#     else:
-#         # Return error message if user not found
-#         return jsonify({"error": "User not found"})
-
-
-# Route for displaying the admin login page
-@app.route("/loginadmin")
-def adminlogin():
     return render_template("loginAdmin.html")
+
+
+@app.route("/registeradmin", methods=["GET", "POST"])
+def register_admin():
+    if request.method == "POST":
+        # name = request.form["name"]
+        username = request.form["username"]
+        email = request.form["email"]
+        # password = request.form["password"]
+        # print(name, username, email, password)
+
+        if request.form["name"] != "" and request.form["password"] != "":
+            name = request.form["name"]
+            password = request.form["password"]
+            statement = (
+                f"SELECT * from admin where name='{name}' AND password = '{password}';"
+            )
+            cursor.execute(statement)
+            data = cursor.fetchone()
+
+            if data:
+                return render_template("loginAdmin.html")
+            else:
+                if not data:
+                    cursor.execute(
+                        "INSERT INTO admin (name, username, email, password, isAdmin) VALUES (?,?,?,?,1)",
+                        (name, username, email, password),
+                    )
+                    conn.commit()
+                    # conn.close()
+                    return render_template("loginAdmin.html")
+    elif request.method == "GET":
+        return render_template("loginAdmin.html")
+
+    # Redirect to login page after successful registration
+    return redirect("/loginadmin")
 
 
 @app.route("/home")
