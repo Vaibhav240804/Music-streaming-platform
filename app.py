@@ -1,6 +1,7 @@
 import sqlite3
-from flask import Flask, jsonify, redirect, render_template, request
+from flask import Flask, jsonify, redirect, render_template, request, send_from_directory
 import sqlite3
+import os
 
 app = Flask(__name__)
 app.static_folder = "static"
@@ -18,6 +19,7 @@ cursor = conn.cursor()
 # Route for handling user registration
 app = Flask(__name__)
 
+app.config['UPLOAD_FOLDER'] = 'uploads'
 
 @app.route("/", methods=["GET"])
 def index():
@@ -106,29 +108,23 @@ def lyrics():
 
 
 @app.route("/uploadsong", methods=["GET", "POST"])
-def uploadSong():
-    if request.method == "POST":
-        title = request.form["title"]
-        artist = request.form["artist"]
-        duration = request.form["duration"]
-        date = request.form["date"]
-        lyrics = request.form["lyrics"]
-
-        data = cursor.fetchone()
-        if data:
-            return render_template("uploadsong.html")
-        else:
-            if not data:
-                cursor.execute(
-                    "INSERT INTO uploadsong (title, artist, duration, date, lyrics, isAdmin) VALUES (?,?,?,?,?,0)",
-                    (title, artist, duration, date, lyrics),
-                )
-                conn.commit()
-                # conn.close()
-                return render_template("home.html")
-
-    elif request.method == "GET":
+def upload():
+    if request.method == "GET":
         return render_template("uploadsong.html")
+    else:
+        if 'file' not in request.files:
+            return 'No file part'
+
+        file = request.files['file']
+        if file.filename == '':
+            return render_template("uploadsong.html", error="No file selected")
+
+        if file:
+            filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(filename)
+            return render_template("uploadsong.html", message="File uploaded successfully")
+        
+
 
 
 @app.route("/creatorsdash", methods=["GET"])
@@ -136,10 +132,14 @@ def creatorsdash():
     return render_template("creatordash.html")
 
 
+@app.route("/uploads/<filename>", methods=["GET"])
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+
 @app.route("/play", methods=["GET"])
 def play():
     return render_template("lyricsnplay.html")
-
 
 @app.route("/admin", methods=["GET"])
 def admin():
