@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='global.css') }}"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Creators account</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-mdb-toggle="collapse"
+          data-mdb-target="#navbarText"
+          aria-controls="navbarText"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <span class="navbar-text"></span>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/uploadsong">Upload song</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="#">User account</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/creatorsdash">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Log out</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main
+      class="vw-100 min-vh-100 d-flex flex-column align-items-center justify-content-center"
+    >
+      <div class="w-50">
+        <form>
+          <!-- Name input -->
+          <div class="form-outline mb-4" style="color: whitesmoke">
+            <input
+              type="text"
+              id="form5Example1"
+              name="title"
+              class="form-control p-2"
+              style="color: whitesmoke"
+            />
+            <label
+              class="form-label"
+              for="form5Example1"
+              style="color: whitesmoke"
+              >Title</label
+            >
+          </div>
+
+          <!-- Email input -->
+          <div class="form-outline mb-4" style="color: whitesmoke">
+            <input
+              type="text"
+              name="singer"
+              id="form5Example2"
+              class="form-control p-2"
+              style="color: whitesmoke"
+            />
+            <label
+              class="form-label"
+              for="form5Example2"
+              style="color: whitesmoke"
+              >Singer</label
+            >
+          </div>
+          <div class="form-outline mb-4" style="color: whitesmoke">
+            <input
+              type="date"
+              name="date"
+              id="form5Example2"
+              class="form-control p-2"
+              style="color: whitesmoke"
+            />
+            <label
+              class="form-label"
+              for="form5Example2"
+              style="color: whitesmoke"
+              >Date</label
+            >
+          </div>
+          <div class="form-outline mb-4">
+            <textarea
+              class="form-control"
+              id="form6Example7"
+              rows="4"
+              style="color: whitesmoke"
+              name="lyrics"
+            ></textarea>
+            <label
+              class="form-label"
+              for="form6Example7"
+              style="color: whitesmoke"
+              >Lyrics</label
+            >
+          </div>
+          <!-- Submit button -->
+          <button
+            type="submit"
+            class="btn btn-light btn-rounded btn-block mb-4"
+          >
+            Upload
+          </button>
+        </form>
+      </div>
+    </main>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
+    ></script>
+  </body>
+</html>

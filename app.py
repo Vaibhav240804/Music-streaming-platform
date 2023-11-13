@@ -117,9 +117,40 @@ def register_user():
         return render_template("loginUser.html")
 
 
-@app.route("/", methods=["GET"])
+    # Redirect to login page after successful registration
+    return redirect("/loginuser")
+
+
+# Route for retrieving user information based on username
+
+@app.route("/usercreatesalbum", methods=["GET","POST"])
+def create_album():
+    if request.method == "GET":
+        return render_template("usercreatesalbum.html")
+    else:
+        return render_template("usercreatesalbum.html")
+
+@app.route("/userfetchesalbum", methods=["GET","POST"])
+def fetch_album():
+    if request.method == "GET":
+        return render_template("userfetchesalbum.html")
+    else:
+        return render_template("userfetchesalbum.html")
+
+@app.route("/",methods=["GET"])
 def lyrics():
-    return render_template("lyricsnplay.html")
+    return render_template("home.html")
+
+@app.route("/uploadsong",methods=["GET","POST"])
+def upload():
+    if request.method == "GET":
+        return render_template("uploadsong.html")
+    else:
+        return render_template("uploadsong.html")
+
+@app.route("/creatorsdash",methods=["GET"])
+def creatorsdash():
+    return render_template("creatordash.html")
 
 
 @app.route("/play", methods=["GET"])
