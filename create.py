@@ -7,7 +7,7 @@ cursor = conn.cursor()
 # -------- user login register ---------
 # sql_query = """CREATE TABLE user(
 # name text,
-# username text,
+# username text PRIMARY KEY,
 # email text,
 # password text,
 # isAdmin int
@@ -17,7 +17,7 @@ cursor = conn.cursor()
 # --------- admin login register----------
 # sql_query = """CREATE TABLE admin(
 # name text,
-# username text,
+# username text PRIMARY KEY,
 # email text,
 # password text,
 # isAdmin int
@@ -52,15 +52,15 @@ cursor = conn.cursor()
 # genre text
 # )"""
 
-# cursor.execute("DROP TABLE IF EXISTS uploadsong")
+# cursor.execute("DROP TABLE IF EXISTS admin")
 # cursor.execute(sql_query)
-try:
-    cursor.execute(
-        "INSERT INTO creator (name, email, artist, genre) VALUES ('test', 'test@gmail.com', 'test-artist', 'test-genre')"
-    )
-    conn.commit()
-except Exception as e:
-    print(f"Error: {e}")
-    conn.rollback()
+# try:
+#     cursor.execute(
+#         "INSERT INTO creator (name, email, artist, genre) VALUES ('test', 'test@gmail.com', 'test-artist', 'test-genre')"
+#     )
+# conn.commit()
+# except Exception as e:
+#     print(f"Error: {e}")
+#     conn.rollback()
 
 # conn.commit()

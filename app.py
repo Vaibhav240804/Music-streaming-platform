@@ -62,17 +62,14 @@ def login_user():
 def register_user():
     if request.method == "POST":
         # name = request.form["name"]
-        username = request.form["username"]
+        name = request.form["name"]
         email = request.form["email"]
-        # password = request.form["password"]
+        password = request.form["password"]
         # print(name, username, email, password)
 
-        if request.form["name"] != "" and request.form["password"] != "":
-            name = request.form["name"]
-            password = request.form["password"]
-            statement = (
-                f"SELECT * from user where name='{name}' AND password = '{password}';"
-            )
+        if request.form["username"] != "":
+            username = request.form["username"]
+            statement = f"SELECT * from user where username='{username}';"
             cursor.execute(statement)
             data = cursor.fetchone()
 
@@ -214,17 +211,14 @@ def login_admin():
 def register_admin():
     if request.method == "POST":
         # name = request.form["name"]
-        username = request.form["username"]
+        name = request.form["name"]
         email = request.form["email"]
-        # password = request.form["password"]
+        password = request.form["password"]
         # print(name, username, email, password)
 
-        if request.form["name"] != "" and request.form["password"] != "":
-            name = request.form["name"]
-            password = request.form["password"]
-            statement = (
-                f"SELECT * from admin where name='{name}' AND password = '{password}';"
-            )
+        if request.form["username"] != "":
+            username = request.form["username"]
+            statement = f"SELECT * from admin where username='{username}';"
             cursor.execute(statement)
             data = cursor.fetchone()
 
@@ -244,7 +238,6 @@ def register_admin():
 
     # Redirect to login page after successful registration
     return redirect("/loginadmin")
-
 
 @app.route("/home")
 def homepage():
