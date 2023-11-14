@@ -28,6 +28,7 @@ cursor = conn.cursor()
 # duration is in seconds
 
 # sql_query = """CREATE TABLE uploadsong(
+# uploadsong_id INTEGER PRIMARY KEY AUTOINCREMENT,
 # title text,
 # artist text,
 # genre text,
@@ -35,13 +36,27 @@ cursor = conn.cursor()
 # date text,
 # filename text,
 # lyrics text,
-# isFlagged int
+# isFlagged int,
+# creator_id INTEGER,
+# FOREIGN KEY (creator_id) REFERENCES creator(creator_id)
 # )"""
 
+
+# -------- creator table -----
+
+sql_query = """CREATE TABLE creator(
+creator_id INTEGER PRIMARY KEY AUTOINCREMENT,
+name text,
+email text,
+artist text,
+genre text
+)"""
+
 # cursor.execute("DROP TABLE IF EXISTS uploadsong")
-# cursor.execute(sql_query)
+cursor.execute(sql_query)
 # cursor.execute(
 #     "INSERT INTO uploadsong VALUES ('Song Title', 'Artist Name', 240, '2023-11-13', 'Lyrics go here', 0)"
 # )
+
 
 # conn.commit()
