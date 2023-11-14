@@ -44,19 +44,23 @@ cursor = conn.cursor()
 
 # -------- creator table -----
 
-sql_query = """CREATE TABLE creator(
-creator_id INTEGER PRIMARY KEY AUTOINCREMENT,
-name text,
-email text,
-artist text,
-genre text
-)"""
+# sql_query = """CREATE TABLE creator(
+# creator_id INTEGER PRIMARY KEY AUTOINCREMENT,
+# name text,
+# email text,
+# artist text,
+# genre text
+# )"""
 
 # cursor.execute("DROP TABLE IF EXISTS uploadsong")
-cursor.execute(sql_query)
-# cursor.execute(
-#     "INSERT INTO uploadsong VALUES ('Song Title', 'Artist Name', 240, '2023-11-13', 'Lyrics go here', 0)"
-# )
-
+# cursor.execute(sql_query)
+try:
+    cursor.execute(
+        "INSERT INTO creator (name, email, artist, genre) VALUES ('test', 'test@gmail.com', 'test-artist', 'test-genre')"
+    )
+    conn.commit()
+except Exception as e:
+    print(f"Error: {e}")
+    conn.rollback()
 
 # conn.commit()

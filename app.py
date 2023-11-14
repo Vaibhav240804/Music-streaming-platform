@@ -128,13 +128,17 @@ def upload():
         uploaded_file = request.files["file"]
         filename = uploaded_file.filename
         lyrics = request.form["lyrics"]
+        cursor.execute("SELECT MAX(creator_id) FROM creator")
+        latest_creator_id = cursor.fetchone()[0]
 
+        # Use the latest_creator_id in the INSERT statement
         cursor.execute(
-            "INSERT INTO uploadsong (title, artist, genre, duration,date, filename,lyrics, isFlagged) VALUES (?,?,?,?,?,?,?,0)",
-            (title, artist, genre, duration, date, filename, lyrics),
+            "INSERT INTO uploadsong (title, artist, genre, duration, date, filename, lyrics, isFlagged, creator_id) VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?)",
+            (title, artist, genre, duration, date, filename, lyrics, latest_creator_id),
         )
+
         conn.commit()
-        conn.close()
+        # conn.close()
         return render_template("home.html")
     else:
         if "file" not in request.files:
@@ -150,6 +154,7 @@ def upload():
             return render_template(
                 "uploadsong.html", message="File uploaded successfully"
             )
+
 
 @app.route("/creatorsdash", methods=["GET"])
 def creatorsdash():
