@@ -6,13 +6,14 @@ from flask import (
     render_template,
     request,
     send_from_directory,
+    flash,
+    session,
 )
 import sqlite3
 import os
 
 app = Flask(__name__)
 app.static_folder = "static"
-
 app.secret_key = "__privatekey__"
 
 # Route for displaying the user login page
@@ -24,7 +25,7 @@ conn = sqlite3.connect("user_data.db", check_same_thread=False)
 cursor = conn.cursor()
 
 # Route for handling user registration
-app = Flask(__name__)
+# app = Flask(__name__)
 
 app.config["UPLOAD_FOLDER"] = "uploads"
 
@@ -88,6 +89,18 @@ def register_user():
         return render_template("loginUser.html")
 
     # Redirect to login page after successful registration
+    return redirect("/loginuser")
+
+
+@app.route("/logout", methods=["GET", "POST"])
+def logout_user():
+    # Clear the user session
+    session.clear()
+
+    # Flash a message for successful logout
+    flash("Logout successful", "success")
+
+    # Redirect to the login page
     return redirect("/loginuser")
 
 
@@ -238,6 +251,7 @@ def register_admin():
 
     # Redirect to login page after successful registration
     return redirect("/loginadmin")
+
 
 @app.route("/home")
 def homepage():
