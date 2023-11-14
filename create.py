@@ -27,17 +27,19 @@ cursor = conn.cursor()
 # -------upload song ---------
 # duration is in seconds
 
-sql_query = """CREATE TABLE uploadsong(
-title text,
-artist text,
-duration int,
-date text,
-lyrics text,
-isAdmin int
-)"""
+# sql_query = """CREATE TABLE uploadsong(
+# title text,
+# artist text,
+# genre text,
+# duration int,
+# date text,
+# filename text,
+# lyrics text,
+# isFlagged int
+# )"""
 
 # cursor.execute("DROP TABLE IF EXISTS uploadsong")
-cursor.execute(sql_query)
+# cursor.execute(sql_query)
 # cursor.execute(
 #     "INSERT INTO uploadsong VALUES ('Song Title', 'Artist Name', 240, '2023-11-13', 'Lyrics go here', 0)"
 # )
