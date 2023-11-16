@@ -57,6 +57,7 @@ cursor = conn.cursor()
 # )"""
 
 # -------- album table ------------
+
 # sql_query = """CREATE TABLE Albums (
 #   Album_ID INTEGER PRIMARY KEY AUTOINCREMENT,
 #   Artist_ID INTEGER,
@@ -64,6 +65,50 @@ cursor = conn.cursor()
 #   Release_Date DATE,
 #   Image TEXT,
 #   FOREIGN KEY (Artist_ID) REFERENCES Artists(Artist_ID)
+# )"""
+
+# ----------- tracks table -------------
+
+# sql_query = """CREATE TABLE Tracks (
+#   Track_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+#   Album_ID INTEGER,
+#   Name TEXT NOT NULL,
+#   Duration INTEGER NOT NULL,
+#   Path TEXT,
+#   FOREIGN KEY (Album_ID) REFERENCES Albums(Album_ID)
+# )"""
+
+# ----------- playlists ----------
+
+# sql_query = """CREATE TABLE Playlists (
+#   Playlist_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+#   User_ID INTEGER,
+#   Name TEXT NOT NULL,
+#   Image BLOB,
+#   FOREIGN KEY (User_ID) REFERENCES Users(User_ID)
+# )
+# """
+
+# --------- playlists-track table -------
+
+# sql_query = """CREATE TABLE Playlist_Tracks (
+#   Playlist_ID INT,
+#   Track_ID INT,
+#   `Order` INT,
+#   PRIMARY KEY (Playlist_ID, Track_ID),
+#   FOREIGN KEY (Playlist_ID) REFERENCES Playlists(Playlist_ID),
+#   FOREIGN KEY (Track_ID) REFERENCES Tracks(Track_ID)
+# )"""
+
+# --------- Likes table ---------
+
+# sql_query = """CREATE TABLE Likes (
+#   username TEXT,
+#   Track_ID INT,
+#   Like_Date_Time DATETIME,
+#   PRIMARY KEY (username, Track_ID),
+#   FOREIGN KEY (username) REFERENCES user(username),
+#   FOREIGN KEY (Track_ID) REFERENCES Tracks(Track_ID)
 # )"""
 
 # cursor.execute("DROP TABLE IF EXISTS uploadsong")
