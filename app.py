@@ -141,10 +141,29 @@ def upload():
         cursor.execute("SELECT MAX(creator_id) FROM creator")
         latest_creator_id = cursor.fetchone()[0]
 
+        cursor.execute("SELECT MAX(Album_ID) FROM Albums")
+        result = cursor.fetchone()
+
+        # Check if the result is not None before accessing its elements
+        if result and result[0] is not None:
+            latest_album_id = result[0]
+        else:
+            latest_album_id = 0  # or any default value you want to use
+
         # Use the latest_creator_id in the INSERT statement
         cursor.execute(
-            "INSERT INTO uploadsong (title, artist, genre, duration, date, filename, lyrics, isFlagged, creator_id) VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?)",
-            (title, artist, genre, duration, date, filename, lyrics, latest_creator_id),
+            "INSERT INTO uploadsong (title, artist, genre, duration, date, filename, lyrics, isFlagged, creator_id, album_id) VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, ?)",
+            (
+                title,
+                artist,
+                genre,
+                duration,
+                date,
+                filename,
+                lyrics,
+                latest_creator_id,
+                latest_album_id,
+            ),
         )
 
         conn.commit()
