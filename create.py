@@ -7,8 +7,8 @@ cursor = conn.cursor()
 # -------- user login register ---------
 # sql_query = """CREATE TABLE user(
 # name text,
-# username text PRIMARY KEY,
-# email text,
+# username text,
+# email text  PRIMARY KEY,
 # password text,
 # isAdmin int
 # )"""
@@ -80,14 +80,14 @@ cursor = conn.cursor()
 
 # ----------- playlists ----------
 
-# sql_query = """CREATE TABLE Playlists (
-#   Playlist_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-#   User_ID INTEGER,
-#   Name TEXT NOT NULL,
-#   Image BLOB,
-#   FOREIGN KEY (User_ID) REFERENCES Users(User_ID)
-# )
-# """
+sql_query = """CREATE TABLE Playlists (
+  Playlist_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT,
+  Name TEXT NOT NULL,
+  Image BLOB,
+  FOREIGN KEY (username) REFERENCES user(username)
+)
+"""
 
 # --------- playlists-track table -------
 
@@ -111,8 +111,8 @@ cursor = conn.cursor()
 #   FOREIGN KEY (Track_ID) REFERENCES Tracks(Track_ID)
 # )"""
 
-# cursor.execute("DROP TABLE IF EXISTS uploadsong")
-# cursor.execute(sql_query)
+# cursor.execute("DROP TABLE IF EXISTS Playlists")
+cursor.execute(sql_query)
 # try:
 #     cursor.execute(
 #         "INSERT INTO Albums (Album_ID, Artist_ID, Name, Release_Date, Image) VALUES ('1', '1', 'test-artist', '02-02-2002', 'image')"
@@ -122,4 +122,4 @@ cursor = conn.cursor()
 #     print(f"Error: {e}")
 #     conn.rollback()
 
-# conn.commit()
+conn.commit()

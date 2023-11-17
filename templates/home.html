@@ -100,21 +100,18 @@
               overflow-x: auto;
             "
           >
-            <div
-              class="card m-2 hover-shadow"
-              style="width: 300px; height: 100%"
-            >
-              <div class="card-body px-2">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a type="button" href="/play" class="btn btn-light btn-rounded"
-                  >Play</a
-                >
-              </div>
+          {% for song in data %}
+          <div class="card m-2 hover-shadow" style="width: 300px; height: 100%">
+            <div class="card-body px-2">
+              <h5 class="card-title">{{ song.title }}</h5>
+              <p class="card-text">
+                {{song.artist}}
+              </p>
+              <a type="button" href="/{{song.filename}}" class="btn btn-light btn-rounded">Play</a>
             </div>
+          </div>
+        {% endfor %}
+        
             <div
               class="card m-2 hover-shadow"
               style="width: 300px; height: 100%"
