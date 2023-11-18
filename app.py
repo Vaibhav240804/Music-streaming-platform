@@ -30,9 +30,9 @@ cursor = conn.cursor()
 app.config["UPLOAD_FOLDER"] = "uploads"
 
 
-@app.route("/", methods=["GET"])
-def index():
-    return render_template("home.html")
+# @app.route("/", methods=["GET"])
+# def index():
+#     return render_template("home.html")
 
 
 @app.route("/loginuser", methods=["GET", "POST"])
@@ -120,9 +120,22 @@ def fetch_album():
         return render_template("userfetchesalbum.html")
 
 
-@app.route("/", methods=["GET"])
-def lyrics():
-    return render_template("home.html")
+@app.route("/")
+def fetchedsongdata():
+    try:
+        conn = sqlite3.connect("user_data.db", check_same_thread=False)
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT title, artist, filename FROM uploadsong")
+        data = cursor.fetchall()
+        print(data)
+        return render_template("home.html", data=data)
+
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+    finally:
+        conn.close()
 
 
 @app.route("/uploadsong", methods=["GET", "POST"])
