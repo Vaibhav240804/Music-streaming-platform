@@ -48,12 +48,12 @@ cursor = conn.cursor()
 
 # -------- creator table -----
 
-  # sql_query = """CREATE TABLE creator(
-  # creator_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  # artist text,
-  # email text,
-  # genre text
-  # )"""
+# sql_query = """CREATE TABLE creator(
+# creator_id INTEGER PRIMARY KEY AUTOINCREMENT,
+# artist text,
+# email text,
+# genre text
+# )"""
 
 # -------- album table ------------
 

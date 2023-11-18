@@ -112,6 +112,7 @@ def create_album():
     else:
         return render_template("usercreatesalbum.html")
 
+
 @app.route("/userfetchesalbum", methods=["GET"])
 def fetch_album():
     try:
@@ -124,6 +125,7 @@ def fetch_album():
         print("Error:", e)
         sys.stdout.flush()
         return "An error occurred while fetching data from the database."
+
 
 @app.route("/")
 def fetchedsongdata():
@@ -185,7 +187,6 @@ def upload():
                 album_id,
             ),
         )
-
         conn.commit()
         # conn.close()
         return render_template("home.html")
