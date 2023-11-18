@@ -9,6 +9,7 @@ from flask import (
     flash,
     session,
 )
+import sys
 import sqlite3
 import os
 
@@ -111,14 +112,18 @@ def create_album():
     else:
         return render_template("usercreatesalbum.html")
 
-
-@app.route("/userfetchesalbum", methods=["GET", "POST"])
+@app.route("/userfetchesalbum", methods=["GET"])
 def fetch_album():
-    if request.method == "GET":
-        return render_template("userfetchesalbum.html")
-    else:
-        return render_template("userfetchesalbum.html")
-
+    try:
+        cursor.execute("SELECT * FROM Albums")
+        albums_data = cursor.fetchall()
+        print(albums_data)
+        sys.stdout.flush()
+        return render_template("userfetchesalbum.html", albums_data=albums_data)
+    except Exception as e:
+        print("Error:", e)
+        sys.stdout.flush()
+        return "An error occurred while fetching data from the database."
 
 @app.route("/")
 def fetchedsongdata():
@@ -147,23 +152,25 @@ def upload():
         artist = request.form["artist"]
         genre = request.form["genre"]
         duration = request.form["duration"]
+        Album_name = request.form["album_name"]
         date = request.form["date"]
         uploaded_file = request.files["file"]
         filename = uploaded_file.filename
         lyrics = request.form["lyrics"]
-        cursor.execute("SELECT MAX(creator_id) FROM creator")
-        latest_creator_id = cursor.fetchone()[0]
 
-        cursor.execute("SELECT MAX(Album_ID) FROM Albums")
-        result = cursor.fetchone()
+        cursor.execute("SELECT creator_id FROM creator WHERE artist = ?", (artist,))
+        creator_id = cursor.fetchone()
 
-        # Check if the result is not None before accessing its elements
-        if result and result[0] is not None:
-            latest_album_id = result[0]
-        else:
-            latest_album_id = 0  # or any default value you want to use
+        if creator_id is not None:
+            creator_id = creator_id[0]
 
-        # Use the latest_creator_id in the INSERT statement
+        cursor.execute(
+            "SELECT album_id FROM Albums WHERE Album_name = ?", (Album_name,)
+        )
+        album_id = cursor.fetchone()
+        if album_id is not None:
+            album_id = album_id[0]
+
         cursor.execute(
             "INSERT INTO uploadsong (title, artist, genre, duration, date, filename, lyrics, isFlagged, creator_id, album_id) VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, ?)",
             (
@@ -174,8 +181,8 @@ def upload():
                 date,
                 filename,
                 lyrics,
-                latest_creator_id,
-                latest_album_id,
+                creator_id,
+                album_id,
             ),
         )
 

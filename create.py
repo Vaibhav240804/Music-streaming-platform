@@ -48,53 +48,39 @@ cursor = conn.cursor()
 
 # -------- creator table -----
 
-# sql_query = """CREATE TABLE creator(
-# creator_id INTEGER PRIMARY KEY AUTOINCREMENT,
-# name text,
-# email text,
-# artist text,
-# genre text
-# )"""
+  # sql_query = """CREATE TABLE creator(
+  # creator_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  # artist text,
+  # email text,
+  # genre text
+  # )"""
 
 # -------- album table ------------
 
 # sql_query = """CREATE TABLE Albums (
 #   Album_ID INTEGER PRIMARY KEY AUTOINCREMENT,
 #   Artist_ID INTEGER,
-#   Name TEXT NOT NULL,
+#   Album_name TEXT NOT NULL,
 #   Release_Date DATE,
-#   Image TEXT,
 #   FOREIGN KEY (Artist_ID) REFERENCES Artists(Artist_ID)
 # )"""
 
-# ----------- tracks table -------------
-
-# sql_query = """CREATE TABLE Tracks (
-#   Track_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-#   Album_ID INTEGER,
-#   Name TEXT NOT NULL,
-#   Duration INTEGER NOT NULL,
-#   Path TEXT,
-#   FOREIGN KEY (Album_ID) REFERENCES Albums(Album_ID)
-# )"""
 
 # ----------- playlists ----------
 
-sql_query = """CREATE TABLE Playlists (
-  Playlist_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT,
-  Name TEXT NOT NULL,
-  Image BLOB,
-  FOREIGN KEY (username) REFERENCES user(username)
-)
-"""
+# sql_query = """CREATE TABLE Playlists (
+#   Playlist_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+#   username TEXT,
+#   Name TEXT NOT NULL,
+#   FOREIGN KEY (username) REFERENCES user(username)
+# )
+# """
 
 # --------- playlists-track table -------
 
 # sql_query = """CREATE TABLE Playlist_Tracks (
 #   Playlist_ID INT,
 #   Track_ID INT,
-#   `Order` INT,
 #   PRIMARY KEY (Playlist_ID, Track_ID),
 #   FOREIGN KEY (Playlist_ID) REFERENCES Playlists(Playlist_ID),
 #   FOREIGN KEY (Track_ID) REFERENCES Tracks(Track_ID)
@@ -111,11 +97,17 @@ sql_query = """CREATE TABLE Playlists (
 #   FOREIGN KEY (Track_ID) REFERENCES Tracks(Track_ID)
 # )"""
 
-# cursor.execute("DROP TABLE IF EXISTS Playlists")
-cursor.execute(sql_query)
+# cursor.execute("DROP TABLE IF EXISTS uploadsong")
+
+
+# to clear all the data
+# cursor.execute("DELETE FROM uploadsong")
+
+
+# cursor.execute(sql_query)
 # try:
 #     cursor.execute(
-#         "INSERT INTO Albums (Album_ID, Artist_ID, Name, Release_Date, Image) VALUES ('1', '1', 'test-artist', '02-02-2002', 'image')"
+#         "INSERT INTO creator (creator_id, artist, email, genre) VALUES ('1', 'artist', 'artist@gmail.com', 'genre')"
 #     )
 #     conn.commit()
 # except Exception as e:
