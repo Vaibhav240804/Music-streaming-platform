@@ -298,5 +298,17 @@ def homepage():
     return render_template("home.html")
 
 
+# admin dash kiti genre aataparyant aale || no of filenames from uploasong || total albums from album_id Albums
+# day wise eka genre madhe kiti songs aahet till that date or kahipn
+
+#   aajchya data time chya saglya entries retrieve eka track id nusar group by or order by tya track id sathi total rating 
+
+# date nusar  group by uploadsong table tya particular date sathi total number of tracks and albums
+
+# creator dash
+# creator_id = uploadsong table madhe jaun select uploadsong id je related aahe selected creator id sobat
+# likes table madhe trackid
+
+
 if __name__ == "__main__":
     app.run(debug=True)

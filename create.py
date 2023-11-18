@@ -90,14 +90,15 @@ cursor = conn.cursor()
 
 # sql_query = """CREATE TABLE Likes (
 #   username TEXT,
-#   Track_ID INT,
+#   uploadsong_id INT,
+#   Rating INT,
 #   Like_Date_Time DATETIME,
-#   PRIMARY KEY (username, Track_ID),
+#   PRIMARY KEY (username, uploadsong_id),
 #   FOREIGN KEY (username) REFERENCES user(username),
-#   FOREIGN KEY (Track_ID) REFERENCES Tracks(Track_ID)
+#   FOREIGN KEY (uploadsong_id) REFERENCES Tracks(uploadsong_id)
 # )"""
 
-# cursor.execute("DROP TABLE IF EXISTS uploadsong")
+# cursor.execute("DROP TABLE IF EXISTS Likes")
 
 
 # to clear all the data
