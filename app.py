@@ -286,7 +286,13 @@ def creatorsdash():
     average_ratings = {
         date: sum(ratings) / len(ratings) for date, ratings in ratings_by_date.items()
     }
+    print(average_ratings)
+    formatted_ratings = {
+        date: round(rating, 3) for date, rating in average_ratings.items()
+    }
 
+    dates = list(formatted_ratings.keys())
+    ratings = list(formatted_ratings.values())
     for date, average_rating in average_ratings.items():
         print(f"Date: {date}, Average Rating: {average_rating}")
 
@@ -295,6 +301,8 @@ def creatorsdash():
         cursor.execute("SELECT creator_id FROM creator WHERE email = ?", (email,))
         creator_ids = cursor.fetchall()
 
+    title_count = 0
+    album_name_count = 0
     for creator_id in creator_ids:
         cursor.execute(
             "SELECT COUNT(title) FROM uploadsong WHERE creator_id = ?", creator_id
@@ -321,7 +329,7 @@ def creatorsdash():
             print(
                 f"Creator ID: {creator_id[0]}, Album ID: {album_id[0]}, Album Name Count: {album_name_count}"
             )
-    return render_template("creatordash.html")
+    return render_template("creatordash.html", dates=dates, ratings=ratings, title_count=title_count, album_count=album_name_count)
 
 
 @app.route("/uploads/<filename>", methods=["GET"])
