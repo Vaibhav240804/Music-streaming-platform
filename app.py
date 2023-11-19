@@ -284,11 +284,29 @@ def play(id):
                 return render_template("lyricsnplay.html", data=data)
     else:
         print("Received rating data from client")
-        rating = request.json.get('rate')  # Accessing the submitted rating value
-        # Process the received rating data (e.g., save it to a database)
+        rating = request.form["rate"] 
         print(f"Received rating: {rating}")
-        # Return a response if needed
-        return 'Rating received'
+        # save this to database if present already by this user then update else insert
+        if "username" in session:
+            username = session["username"]
+            cursor.execute(
+                "SELECT rating FROM Likes WHERE username = ? AND uploadsong_id = ?",
+                (username, id),
+            )
+            rating_data = cursor.fetchone()
+            if rating_data is None:
+                cursor.execute(
+                    "INSERT INTO Likes (username, uploadsong_id, rating) VALUES (?, ?, ?)",
+                    (username, id, rating),
+                )
+                conn.commit()
+            else:
+                cursor.execute(
+                    "UPDATE Likes SET rating = ? WHERE username = ? AND uploadsong_id = ?",
+                    (rating, username, id),
+                )
+                conn.commit()
+            return redirect("/play/" + id)
     return render_template("lyricsnplay.html", data=data)
 
 
