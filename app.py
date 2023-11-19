@@ -179,10 +179,16 @@ def upload():
         if creator_id is not None:
             creator_id = creator_id[0]
         else:
-            return render_template("uploadsong.html", error="Please register as a creator first")
+            return render_template(
+                "uploadsong.html", error="Please register as a creator first"
+            )
 
         cursor.execute(
-            "SELECT Album_ID FROM Albums WHERE Album_name = ? AND Artist_ID = ? ", (Album_name, creator_id,)
+            "SELECT Album_ID FROM Albums WHERE Album_name = ? AND Artist_ID = ? ",
+            (
+                Album_name,
+                creator_id,
+            ),
         )
         album_id = cursor.fetchone()
         if album_id is not None:
@@ -191,10 +197,19 @@ def upload():
             # creating new album if album not found, giving attributes Artist_ID, Album_name and Release_Date ( same as songs date)
             cursor.execute(
                 "INSERT INTO Albums (Artist_ID, Album_name, Release_Date) VALUES (?, ?, ?)",
-                (creator_id, Album_name, date,),
+                (
+                    creator_id,
+                    Album_name,
+                    date,
+                ),
             )
-            return render_template("uploadsong.html", message="Album not found, created one new by the name '"+Album_name+"' for you, now upload song with this album name if you want to add more songs to this album")
-        
+            return render_template(
+                "uploadsong.html",
+                message="Album not found, created one new by the name '"
+                + Album_name
+                + "' for you, now upload song with this album name if you want to add more songs to this album",
+            )
+
         if filename != "":
             uploaded_file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
         else:
@@ -216,7 +231,6 @@ def upload():
         conn.commit()
         # conn.close()
         return render_template("uploadsong.html", message="Song uploaded successfully")
-
 
 
 @app.route("/creatorsdash", methods=["GET"])
@@ -273,8 +287,8 @@ def admin():
 
     genre_counts = {}
     for entry in genre_day_counts:
-        genre = entry[0] 
-        count = entry[2] 
+        genre = entry[0]
+        count = entry[2]
 
         if genre not in genre_counts:
             genre_counts[genre] = count
@@ -283,6 +297,35 @@ def admin():
 
     for genre, count in genre_counts.items():
         print(f"{genre}: {count}")
+
+    current_year = datetime.now().strftime("%Y")
+    months = [str(i).zfill(2) for i in range(1, 13)]  # Months from '01' to '12'
+
+    filename_counts = {}
+    album_counts = {}
+
+    for month in months:
+        # Query to get the count of filenames for the current month
+        cursor.execute(
+            "SELECT COUNT(*) as filename_count FROM uploadsong WHERE strftime('%Y-%m', date) = ?",
+            (f"{current_year}-{month}",),
+        )
+        filename_counts[month] = cursor.fetchone()[0]
+
+        # Query to get the count of Album names for the current month
+        cursor.execute(
+            "SELECT COUNT(*) as album_count FROM Albums WHERE strftime('%Y-%m', Release_Date) = ?",
+            (f"{current_year}-{month}",),
+        )
+        album_counts[month] = cursor.fetchone()[0]
+
+    print("Counts of tracks for each month:")
+    for month, count in filename_counts.items():
+        print(f"{current_year}-{month}: {count}")
+
+    print("\nCounts of Albums for each month:")
+    for month, count in album_counts.items():
+        print(f"{current_year}-{month}: {count}")
 
     return render_template(
         "admin.html",
@@ -293,7 +336,7 @@ def admin():
     )
 
 
-@app.route("/creator", methods=["GET","POST"])
+@app.route("/creator", methods=["GET", "POST"])
 def creator():
     # i want to check if user's email is in the table of artist from database or not, if yes then store the artist id in session, and if not then render message on screen to choose genre through jinja syntax and then take input by post and then store it in the database and then store the artist id in session and now the user can upload songs, and if the user is already in the database then just store the artist id in session and then the user can upload songs
     # users email is already stored in session, we will check if the email is in the artist table or not when get request is done on this route
@@ -331,7 +374,6 @@ def creator():
             return render_template("creator.html")
         else:
             return render_template("creator.html", error="Error in selecting genre")
-
 
 
 @app.route("/tracklist", methods=["GET"])
@@ -404,7 +446,7 @@ def homepage():
 # admin dash kiti genre aataparyant aale || no of filenames from uploasong || total albums from album_id Albums
 # day wise eka genre madhe kiti songs aahet till that date or kahipn
 
-#   aajchya data time chya saglya entries retrieve eka track id nusar group by or order by tya track id sathi total rating
+# aajchya data time chya saglya entries retrieve eka track id nusar group by or order by tya track id sathi total rating
 
 # date nusar  group by uploadsong table tya particular date sathi total number of tracks and albums
 
