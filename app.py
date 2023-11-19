@@ -144,11 +144,47 @@ def fetchedsongdata():
     try:
         conn = sqlite3.connect("user_data.db", check_same_thread=False)
         cursor = conn.cursor()
+        cursor.execute(
+            "SELECT uploadsong_id,AVG(rating) FROM Likes GROUP BY uploadsong_id ORDER BY AVG(rating) DESC"
+        )
+        uploadsong_ids = cursor.fetchall()
+        uploadsong_ids = [uploadsong_id[0] for uploadsong_id in uploadsong_ids]
+        print(uploadsong_ids)
+        print("\n")
 
-        cursor.execute("SELECT * FROM uploadsong")
-        data = cursor.fetchall()
-        print(data)
-        return render_template("home.html", data=data)
+        # now we will fetch all the songs from uploadsong table in the order of uploadsong_ids
+        songs = []
+        for uploadsong_id in uploadsong_ids:
+            cursor.execute(
+                "SELECT * FROM uploadsong WHERE uploadsong_id = ?", (uploadsong_id,)
+            )
+            # we also want to append avg rating of each song in songs list as follows 
+            song = cursor.fetchone()
+            cursor.execute("SELECT AVG(rating) FROM Likes WHERE uploadsong_id = ?", (uploadsong_id,))
+            avg_rating = cursor.fetchone()
+            if avg_rating is not None:
+                avg_rating = avg_rating[0]
+                song = list(song)
+                song.append(avg_rating)
+                song = tuple(song)
+                songs.append(song)
+            else:
+                song = list(song)
+                song.append(0)
+                song = tuple(song)
+                songs.append(song)
+        print(songs)
+        # now we will append rest songs which are unrated
+        cursor.execute(
+            "SELECT * FROM uploadsong WHERE uploadsong_id NOT IN (SELECT uploadsong_id FROM Likes)"
+        )
+        unrated_songs = cursor.fetchall()
+        for unrated_song in unrated_songs:
+            songs.append(unrated_song)
+        print(songs)
+        return render_template("home.html", data=songs)
+
+
 
     except Exception as e:
         return f"Error: {str(e)}"
