@@ -1,149 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User Login</title>
-    <!-- Font Awesome -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-      rel="stylesheet"
-    />
-    <!-- MDB -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='global.css') }}"
-    />
-  </head>
-  <body>
-    <div class="container d-flex flex-column justify-content-evenly vh-100 p-10">
-      <!-- Pills navs -->
-      <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
-        <li class="nav-item" role="presentation">
-          <a
-            class="nav-link active"
-            id="tab-login"
-            data-mdb-toggle="pill"
-            href="#pills-login"
-            role="tab"
-            aria-controls="pills-login"
-            aria-selected="true"
-            >Login</a
-          >
-        </li>
-        <li class="nav-item" role="presentation">
-          <a
-            class="nav-link"
-            id="tab-register"
-            data-mdb-toggle="pill"
-            href="#pills-register"
-            role="tab"
-            aria-controls="pills-register"
-            aria-selected="false"
-            >Register</a
-          >
-        </li>
-      </ul>
-      <!-- Pills navs -->
 
-      <!-- Pills content -->
-      <div class="tab-content">
-        <div
-          class="tab-pane fade show active"
-          id="pills-login"
-          role="tabpanel"
-          aria-labelledby="tab-login"
-        >
-          <form method="post" action="/loginuser">
-            <div class="text-center mb-3"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Login</title>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+  <!-- MDB -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}" />
+</head>
 
-            <!-- Email input -->
-            <div class="form-outline mb-4">
-              <input type="text" name="username" id="loginName" class="form-control" />
-              <label class="form-label" for="loginName"
-                >Username</label
-              >
-            </div>
+<body>
+  <div class="container d-flex flex-column justify-content-evenly vh-100 p-10">
+    <!-- Pills navs -->
+    <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"
+          aria-controls="pills-login" aria-selected="true">Login</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="#pills-register" role="tab"
+          aria-controls="pills-register" aria-selected="false">Register</a>
+      </li>
+    </ul>
+    <!-- Pills navs -->
 
-            <!-- Password input -->
-            <div class="form-outline mb-4">
-              <input type="password" name="password" id="loginPassword" class="form-control" />
-              <label class="form-label" for="loginPassword">Password</label>
-            </div>
+    <!-- Pills content -->
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+        <form method="post" action="/loginuser">
+          <div class="text-center mb-3"></div>
 
-            <!-- 2 column grid layout -->
-            <div class="row mb-4">
-              <div class="col-md-6 d-flex justify-content-center">
-                <!-- Checkbox -->
-                <div class="form-check mb-3 mb-md-0">
-                </div>
-              </div>
+          <!-- Email input -->
+          <div class="form-outline mb-4">
+            <input style="color: aliceblue;" type="text" name="username" id="loginName" class="form-control" />
+            <label class="form-label" for="loginName">Username</label>
+          </div>
 
-              <div class="col-md-6 d-flex justify-content-center">
-                <!-- Simple link -->
-                <!-- <a href="#!">Forgot password?</a> -->
+          <!-- Password input -->
+          <div class="form-outline mb-4">
+            <input style="color: aliceblue;" type="password" name="password" id="loginPassword" class="form-control" />
+            <label class="form-label" for="loginPassword">Password</label>
+          </div>
+
+          <!-- 2 column grid layout -->
+          <div class="row mb-4">
+            <div class="col-md-6 d-flex justify-content-center">
+              <!-- Checkbox -->
+              <div class="form-check mb-3 mb-md-0">
               </div>
             </div>
 
-            <!-- Submit button -->
-            <button type="submit" class="btn btn-primary btn-block mb-4">
-              Sign in
-            </button>
-
-            <!-- Register buttons -->
-            <div class="text-center">
-              
+            <div class="col-md-6 d-flex justify-content-center">
+              <!-- Simple link -->
+              <!-- <a href="#!">Forgot password?</a> -->
             </div>
-          </form>
-        </div>
-        <div
-          class="tab-pane fade"
-          id="pills-register"
-          role="tabpanel"
-          aria-labelledby="tab-register"
-        >
-          <form method="post" action="/registeruser">
-            <div class="text-center mb-3"></div>
-            <!-- Name input -->
-            <div class="form-outline mb-4">
-              <input type="text" name="name" id="registerName" class="form-control" />
-              <label class="form-label" for="registerName">Name</label>
-            </div>
+          </div>
 
-            <!-- Username input -->
-            <div class="form-outline mb-4">
-              <input type="text" name="username" id="registerUsername" class="form-control" />
-              <label class="form-label" for="registerUsername">Username</label>
-            </div>
+          <!-- Submit button -->
+          <button type="submit" class="btn btn-primary btn-block mb-4">
+            Sign in
+          </button>
+          <button class="btn btn-primary btn-block mb-3">
+            <a style="color: aliceblue;" href="/loginadmin">Login as Admin</a>
+          </button>
+          <!-- Register buttons -->
+          <div class="text-center">
 
-            <!-- Email input -->
-            <div class="form-outline mb-4">
-              <input type="email" name="email" id="registerEmail" class="form-control" />
-              <label class="form-label" for="registerEmail">Email</label>
-            </div>
+          </div>
+        </form>
+      </div>
+      <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
+        <form method="post" action="/registeruser">
+          <div class="text-center mb-3"></div>
+          <!-- Name input -->
+          <div class="form-outline mb-4">
+            <input style="color: aliceblue;" type="text" name="name" id="registerName" class="form-control" />
+            <label class="form-label" for="registerName">Name</label>
+          </div>
 
-            <!-- Password input -->
-            <div class="form-outline mb-4">
-              <input
-                type="password"
-                name="password"
-                id="registerPassword"
-                class="form-control"
-              />
-              <label class="form-label" for="registerPassword">Password</label>
-            </div>
+          <!-- Username input -->
+          <div class="form-outline mb-4">
+            <input style="color: aliceblue;" type="text" name="username" id="registerUsername" class="form-control" />
+            <label class="form-label" for="registerUsername">Username</label>
+          </div>
 
-            <!-- Repeat Password input -->
-            <!-- <div class="form-outline mb-4">
+          <!-- Email input -->
+          <div class="form-outline mb-4">
+            <input style="color: aliceblue;" type="email" name="email" id="registerEmail" class="form-control" />
+            <label class="form-label" for="registerEmail">Email</label>
+          </div>
+
+          <!-- Password input -->
+          <div class="form-outline mb-4">
+            <input style="color: aliceblue;" type="password" name="password" id="registerPassword" class="form-control" />
+            <label class="form-label" for="registerPassword">Password</label>
+          </div>
+
+          <!-- Repeat Password input -->
+          <!-- <div class="form-outline mb-4">
               <input
                 type="password"
                 id="registerRepeatPassword"
@@ -154,24 +113,25 @@
               >
             </div> -->
 
-            <!-- Checkbox -->
-            <div class="form-check d-flex justify-content-center mb-4">
-              
-            </div>
+          <!-- Checkbox -->
+          <div class="form-check d-flex justify-content-center mb-4">
 
-            <!-- Submit button -->
-            <button type="submit" class="btn btn-primary btn-block mb-3">
-              Sign up
-            </button>
-          </form>
-        </div>
+          </div>
+
+          <!-- Submit button -->
+          <button type="submit" class="btn btn-primary btn-block mb-3">
+            Sign up
+          </button>
+          <button class="btn btn-primary btn-block mb-3">
+            <a style="color: aliceblue;" href="/loginadmin">Register as Admin</a>
+          </button>
+        </form>
       </div>
-      <!-- Pills content -->
     </div>
-    <!-- MDB -->
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
-    ></script>
-  </body>
+    <!-- Pills content -->
+  </div>
+  <!-- MDB -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>
+</body>
+
 </html>

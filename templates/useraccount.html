@@ -120,15 +120,24 @@
                     </div>
 
                     <div class="text-center mt-3">
-                        <span class="bg-secondary p-1 px-4 rounded text-white">Creator</span>
-                        <h5 class="mt-2 mb-0">Alexender Schidmt</h5>
-                        <span>username</span>
-
-                        <div class="px-4 mt-1">
-                            <p class="fonts">email</p>
-
-                        </div>
-
+                        {% if user_data %}
+                            {% if user_data[3] == 1 %}
+                                <span class="bg-danger p-1 px-4 rounded text-white">ADMIN</span>
+                            {% else %}
+                                <span class="bg-secondary p-1 px-4 rounded text-white">Creator</span>
+                            {% endif %}
+                            <h5 class="mt-2 mb-0">{{ user_data[0] }}</h5>
+                            <span>{{ user_data[1] }}</span>
+                    
+                            <div class="px-4 mt-1">
+                                <p class="fonts">{{ user_data[2] }}</p>
+                            </div>
+                        {% else %}
+                            <p>User not found</p>
+                        {% endif %}
+                    </div>
+                    
+                    
                         <!-- <ul class="social-list">
                             <li><i class="fa fa-facebook"></i></li>
                             <li><i class="fa fa-dribbble"></i></li>

@@ -58,7 +58,10 @@
             <a class="nav-link active" href="/tracklist">Tracks</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active">Albums</a>
+            <a class="nav-link active" href="/logoutadmin">Log out</a>
+          </li>
+          <li class="nav-item">
+            <!-- <a class="nav-link active">Albums  </a> -->
           </li>
         </ul>
       </div>
@@ -205,79 +208,7 @@
                   <!-- End Line Chart -->
                 </div>
               </div>
-              <div class="card p-2 mt-2">
-                <div class="card-body">
-                  <h5 class="card-title">Uploads of tracks and albums</h5>
 
-                  <!-- Column Chart -->
-                  <div id="columnChart"></div>
-
-                  <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      new ApexCharts(document.querySelector("#columnChart"), {
-                        series: [
-                          {
-                            name: "Tracks",
-                            data: [20, 15, 17, 30, 21, 18, 22, 10, 16],
-                          },
-                          {
-                            name: "Albums",
-                            data: [4, 7, 5, 6, 6, 5, 6, 0, 6],
-                          },
-                        ],
-                        chart: {
-                          type: "bar",
-                          height: 350,
-                        },
-                        plotOptions: {
-                          bar: {
-                            horizontal: false,
-                            columnWidth: "55%",
-                            endingShape: "rounded",
-                          },
-                        },
-                        dataLabels: {
-                          enabled: false,
-                        },
-                        stroke: {
-                          show: true,
-                          width: 2,
-                          colors: ["transparent"],
-                        },
-                        xaxis: {
-                          categories: [
-                            "Feb",
-                            "Mar",
-                            "Apr",
-                            "May",
-                            "Jun",
-                            "Jul",
-                            "Aug",
-                            "Sep",
-                            "Oct",
-                          ],
-                        },
-                        yaxis: {
-                          title: {
-                            text: "Albums/tracks uploaded",
-                          },
-                        },
-                        fill: {
-                          opacity: 1,
-                        },
-                        tooltip: {
-                          y: {
-                            formatter: function (val) {
-                              return val;
-                            },
-                          },
-                        },
-                      }).render();
-                    });
-                  </script>
-                  <!-- End Column Chart -->
-                </div>
-              </div>
             </div>
             <!-- End Reports -->
           </div>
@@ -293,11 +224,12 @@
 
               <div class="activity">
                 <div class="container">
+
                   <div class="d-flex flex-column align-items-center">
                     <h3 class="container">
-                      Normal Users: <strong>10000</strong>
+                      Normal Users: <strong>{{ user_count }}</strong>
                     </h3>
-                    <h3 class="container">Creators: <strong>1000</strong></h3>
+                    <h3 class="container">Creators: <strong>{{ creator_count }}</strong></h3>
                   </div>
                 </div>
               </div>
@@ -344,38 +276,16 @@
                             show: false,
                           },
                           data: [
-                            {
-                              value: 1048,
-                              name: "Thunder",
-                            },
-                            {
-                              value: 735,
-                              name: "Faded",
-                            },
-                            {
-                              value: 580,
-                              name: "Bad liar",
-                            },
-                            {
-                              value: 484,
-                              name: "Bad blood",
-                            },
-                            {
-                              value: 300,
-                              name: "Vardaan",
-                            },
-                            {
-                              value: 300,
-                              name: "Alone",
-                            },
-                            {
-                              value: 300,
-                              name: "Thug",
-                            },
-                          ],
+                            {% for title in top_ratings_titles %}
+                                            {
+                          value: 1,
+                          name: "{{ title[0] }}",
                         },
-                      ],
-                    });
+                        {% endfor %}
+                                    ],
+                                },
+                            ],
+                        });
                 });
               </script>
             </div>

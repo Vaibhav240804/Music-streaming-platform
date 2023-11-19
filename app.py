@@ -117,12 +117,16 @@ def logout_user():
     return redirect("/loginuser")
 
 
-@app.route("/usercreatesalbum", methods=["GET", "POST"])
-def create_album():
-    if request.method == "GET":
-        return render_template("usercreatesalbum.html")
-    else:
-        return render_template("usercreatesalbum.html")
+@app.route("/logoutadmin", methods=["GET", "POST"])
+def logout_admin():
+    # Clear the user session
+    session.clear()
+
+    # Flash a message for successful logout
+    flash("Logout successful", "success")
+
+    # Redirect to the login page
+    return redirect("/loginadmin")
 
 
 @app.route("/userfetchesalbum", methods=["GET"])
@@ -330,13 +334,9 @@ def creatorsdash():
 
         print(f"Creator ID: {creator_id[0]}, Songs Count: {title_count}")
     creator_id = creator_ids[0]
-    cursor.execute(
-        "SELECT * FROM uploadsong WHERE creator_id = ?", creator_id
-    )
+    cursor.execute("SELECT * FROM uploadsong WHERE creator_id = ?", creator_id)
     songs = cursor.fetchall()
-    cursor.execute(
-        "SELECT * FROM Albums WHERE Artist_ID = ?", creator_id
-    )
+    cursor.execute("SELECT * FROM Albums WHERE Artist_ID = ?", creator_id)
     albums = cursor.fetchall()
     for creator_id in creator_ids:
         cursor.execute(
@@ -376,7 +376,13 @@ def uploaded_file(filename):
 
 @app.route("/useraccount", methods=["GET"])
 def useraccount():
-    return render_template("useraccount.html")
+    cursor.execute(
+        "SELECT name, username, email FROM user WHERE username = ?",
+        (session["username"],),
+    )
+    user_data = cursor.fetchone()
+
+    return render_template("useraccount.html", user_data=user_data)
 
 
 @app.route("/search", methods=["POST"])
@@ -464,8 +470,31 @@ def play(id):
     return render_template("lyricsnplay.html", data=data)
 
 
+from functools import wraps
+
+
+# Define a decorator to check if the user is an admin
+# def admin_required(route_function):
+#     @wraps(route_function)
+#     def wrapper(*args, **kwargs):
+#         # Check if 'isAdmin' is present in the session and is equal to 1
+#         print(isAdmin)
+#         if session.get("isAdmin") == 1:
+#             return route_function(*args, **kwargs)
+#         else:
+#             # Redirect to loginuser.html if not an admin
+#             return redirect("/loginuser")
+
+#     return wrapper
+
+
 @app.route("/admin", methods=["GET"])
 def admin():
+    is_admin = session.get("isAdmin")
+    print(is_admin)
+    # If 'isAdmin' is not present or is not equal to 1, redirect to loginuser.html
+    if is_admin is None or is_admin != 1:
+        return redirect("/loginadmin")
     current_date = datetime.now().strftime("%Y-%m-%d")
 
     # Query to get genre counts
@@ -521,33 +550,26 @@ def admin():
     chart_data = list(sorted_genre_counts.values())
 
     current_year = datetime.now().strftime("%Y")
-    months = [str(i).zfill(2) for i in range(1, 13)]  # Months from '01' to '12'
+    months = [str(i).zfill(2) for i in range(1, 13)]
 
     filename_counts = {}
     album_counts = {}
 
     for month in months:
-        # Query to get the count of filenames for the current month
         cursor.execute(
             "SELECT COUNT(*) as filename_count FROM uploadsong WHERE strftime('%Y-%m', date) = ?",
             (f"{current_year}-{month}",),
         )
         filename_counts[month] = cursor.fetchone()[0]
 
-        # Query to get the count of Album names for the current month
         cursor.execute(
             "SELECT COUNT(*) as album_count FROM Albums WHERE strftime('%Y-%m', Release_Date) = ?",
             (f"{current_year}-{month}",),
         )
         album_counts[month] = cursor.fetchone()[0]
 
-    print("Counts of tracks for each month:")
-    for month, count in filename_counts.items():
-        print(f"{current_year}-{month}: {count}")
-
-    print("\nCounts of Albums for each month:")
-    for month, count in album_counts.items():
-        print(f"{current_year}-{month}: {count}")
+        filename_data = list(filename_counts.values())
+        album_data = list(album_counts.values())
 
     today_date = datetime.now().strftime("%Y-%m-%d")
 
@@ -596,11 +618,16 @@ def admin():
 
     return render_template(
         "admin.html",
+        filename_counts=filename_counts,
+        album_counts=album_counts,
+        user_count=user_count,
+        creator_count=creator_count,
         chart_categories=chart_categories,
         chart_data=chart_data,
         total_genres=total_genres,
         total_filenames=total_filenames,
         total_albums=total_albums,
+        top_ratings_titles=titles,
     )
 
 
@@ -728,34 +755,39 @@ def login_admin():
 @app.route("/registeradmin", methods=["GET", "POST"])
 def register_admin():
     if request.method == "POST":
-        # name = request.form["name"]
         name = request.form["name"]
         email = request.form["email"]
         password = request.form["password"]
-        # print(name, username, email, password)
+        username = request.form["username"]
 
-        if request.form["username"] != "":
-            username = request.form["username"]
-            statement = f"SELECT * from admin where username='{username}';"
-            cursor.execute(statement)
-            data = cursor.fetchone()
+        # Check if the username already exists
+        cursor.execute("SELECT * FROM admin WHERE username=?", (username,))
+        existing_admin = cursor.fetchone()
 
-            if data:
-                return render_template("loginAdmin.html")
-            else:
-                if not data:
-                    cursor.execute(
-                        "INSERT INTO admin (name, username, email, password, isAdmin) VALUES (?,?,?,?,1)",
-                        (name, username, email, password),
-                    )
-                    conn.commit()
-                    # conn.close()
-                    return render_template("loginAdmin.html")
+        if existing_admin:
+            return render_template("loginAdmin.html")
+
+        # If username doesn't exist, insert the new admin
+        cursor.execute(
+            "INSERT INTO admin (name, username, email, password, isAdmin) VALUES (?,?,?,?,1)",
+            (name, username, email, password),
+        )
+        conn.commit()
+
+        # Retrieve isAdmin for the newly registered admin
+        cursor.execute("SELECT isAdmin FROM admin WHERE username=?", (username,))
+        is_admin = cursor.fetchone()
+
+        # Store isAdmin in the session
+        session["isAdmin"] = is_admin[0] if is_admin else 0
+
+        return redirect("/loginuser")
+
     elif request.method == "GET":
         return render_template("loginAdmin.html")
 
     # Redirect to login page after successful registration
-    return redirect("/loginadmin")
+    return redirect("/loginuser")
 
 
 # admin dash kiti genre aataparyant aale || no of filenames from uploasong || total albums from album_id Albums
