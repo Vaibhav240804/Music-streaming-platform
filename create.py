@@ -95,20 +95,20 @@ cursor = conn.cursor()
 #   Like_Date_Time DATETIME,
 #   PRIMARY KEY (username, uploadsong_id),
 #   FOREIGN KEY (username) REFERENCES user(username),
-#   FOREIGN KEY (uploadsong_id) REFERENCES Tracks(uploadsong_id)
+#   FOREIGN KEY (uploadsong_id) REFERENCES uploadsong(uploadsong_id)
 # )"""
 
 # cursor.execute("DROP TABLE IF EXISTS Likes")
 
 
 # to clear all the data
-# cursor.execute("DELETE FROM uploadsong")
+# cursor.execute("DELETE FROM Likes")
 
 
 # cursor.execute(sql_query)
 # try:
 #     cursor.execute(
-#         "INSERT INTO creator (creator_id, artist, email, genre) VALUES ('1', 'artist', 'artist@gmail.com', 'genre')"
+#         "INSERT INTO Likes (username, uploadsong_id, Rating, Like_Date_Time) VALUES ('test123', 3, 2, '2023-11-19 00:12:23')"
 #     )
 #     conn.commit()
 # except Exception as e:

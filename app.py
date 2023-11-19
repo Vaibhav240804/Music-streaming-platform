@@ -333,6 +333,43 @@ def admin():
     for month, count in album_counts.items():
         print(f"{current_year}-{month}: {count}")
 
+    today_date = datetime.now().strftime("%Y-%m-%d")
+
+    # Query to get the top 10 ratings for today
+    cursor.execute(
+        """
+        SELECT uploadsong_id
+        FROM Likes
+        WHERE strftime('%Y-%m-%d', Like_Date_Time) = ? 
+        ORDER BY Rating DESC
+        LIMIT 10
+        """,
+        (today_date,),
+    )
+
+    top_ratings_ids = cursor.fetchall()
+
+    # Extract the uploadsong_id values from the result
+    uploadsong_ids = [row[0] for row in top_ratings_ids]
+
+    # Query to get the titles from the uploadsong table using the uploadsong_ids
+    cursor.execute(
+        """
+        SELECT title
+        FROM uploadsong
+        WHERE uploadsong_id IN ({})
+        """.format(
+            ", ".join("?" for _ in uploadsong_ids)
+        ),
+        uploadsong_ids,
+    )
+
+    titles = cursor.fetchall()
+
+    # Print the titles
+    for i, title in enumerate(titles, start=1):
+        print(f"{i}. {title[0]}")
+
     return render_template(
         "admin.html",
         chart_categories=chart_categories,
@@ -342,7 +379,8 @@ def admin():
         total_albums=total_albums,
     )
 
-@app.route("/creator", methods=["GET","POST"])
+
+@app.route("/creator", methods=["GET", "POST"])
 def creator():
     # i want to check if user's email is in the table of artist from database or not, if yes then store the artist id in session, and if not then render message on screen to choose genre through jinja syntax and then take input by post and then store it in the database and then store the artist id in session and now the user can upload songs, and if the user is already in the database then just store the artist id in session and then the user can upload songs
     # users email is already stored in session, we will check if the email is in the artist table or not when get request is done on this route
