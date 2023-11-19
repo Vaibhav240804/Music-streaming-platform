@@ -1,415 +1,486 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<head>
-  <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Admin dashboard</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
 
-  <title>Admin dashboard</title>
-  <meta content="" name="description" />
-  <meta content="" name="keywords" />
+    <!-- Favicons -->
+    <link
+      href="{{ url_for('static', filename='img/apple-touch-icon.png') }}"
+      rel="apple-touch-icon"
+    />
 
-  <!-- Favicons -->
-  <link href="{{ url_for('static', filename='img/apple-touch-icon.png') }}" rel="apple-touch-icon" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect" />
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet" />
+    <!-- Vendor CSS Files -->
+    <link
+      href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='vendor/quill/quill.snow.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='vendor/quill/quill.bubble.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='vendor/remixicon/remixicon.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='vendor/simple-datatables/style.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='global.css') }}"
+    />
 
-  <!-- Vendor CSS Files -->
-  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
-  <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet" />
-  <link href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet" />
-  <link href="{{ url_for('static', filename='vendor/quill/quill.snow.css') }}" rel="stylesheet" />
-  <link href="{{ url_for('static', filename='vendor/quill/quill.bubble.css') }}" rel="stylesheet" />
-  <link href="{{ url_for('static', filename='vendor/remixicon/remixicon.css') }}" rel="stylesheet" />
-  <link href="{{ url_for('static', filename='vendor/simple-datatables/style.css') }}" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-  <!-- MDB -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}" />
+    <!-- Template Main CSS File -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
 
-  <!-- Template Main CSS File -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-</head>
-
-<body style="
+  <body
+    style="
       background-color: #0093e9;
       background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
-    ">
-  <!-- ======= Header ======= -->
-  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: transparent">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/admin">Admin </a>
-      <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarTogglerDemo02"
-        aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fas fa-bars"></i>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/admin">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/tracklist">Tracks</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active">Albums</a>
-          </li>
-        </ul>
+    "
+  >
+    <!-- ======= Header ======= -->
+    <nav
+      class="navbar navbar-expand-lg navbar-dark"
+      style="background-color: transparent"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/admin">Admin </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-mdb-toggle="collapse"
+          data-mdb-target="#navbarTogglerDemo02"
+          aria-controls="navbarTogglerDemo02"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/admin"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/tracklist">Tracks</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active">Albums</a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
-  <!-- End Header -->
+    </nav>
+    <!-- End Header -->
 
-  <main id="main" class="main p-4">
-    <div class="pagetitle">
-      <h1>Dashboard</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-      </nav>
-    </div>
-    <!-- End Page Title -->
+    <main id="main" class="main p-4">
+      <div class="pagetitle">
+        <h1>Dashboard</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
 
-    <section class="section dashboard">
-      <div class="row mx-4">
-        <!-- Left side columns -->
-        <div class="col-lg-8">
-          <div class="row">
-            <!-- Sales Card -->
-            <div class="col-xxl-4 col-md-6 p-4">
-              <div class="card info-card sales-card">
-                <div class="card-body">
-                  <h5 class="card-title">Genre</h5>
+      <section class="section dashboard">
+        <div class="row mx-4">
+          <!-- Left side columns -->
+          <div class="col-lg-8">
+            <div class="row">
+              <!-- Sales Card -->
+              <div class="col-xxl-4 col-md-6 p-4">
+                <div class="card info-card sales-card">
+                  <div class="card-body">
+                    <h5 class="card-title">Genre</h5>
 
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>5</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- End Sales Card -->
-
-            <!-- Revenue Card -->
-            <div class="col-xxl-4 col-md-6 p-4">
-              <div class="card info-card revenue-card">
-                <div class="card-body">
-                  <h5 class="card-title">Total Tracks</h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>2064</h6>
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                      >
+                        <i class="bi bi-cart"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>{{total_genres}}</h6>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <!-- End Revenue Card -->
+              <!-- End Sales Card -->
 
-            <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-12 p-4">
-              <div class="card info-card customers-card">
-                <div class="card-body">
-                  <h5 class="card-title">Total Albums</h5>
+              <!-- Revenue Card -->
+              <div class="col-xxl-4 col-md-6 p-4">
+                <div class="card info-card revenue-card">
+                  <div class="card-body">
+                    <h5 class="card-title">Total Tracks</h5>
 
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>124</h6>
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                      >
+                        <i class="bi bi-currency-dollar"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>{{ total_filenames }}</h6>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <!-- End Customers Card -->
+              <!-- End Revenue Card -->
 
-            <!-- Reports -->
-            <div class="col-12 p-4">
-              <div class="card p-2">
-                <div class="card-body">
-                  <h5 class="card-title">
-                    Reports<span>/genre Popularity</span>
-                  </h5>
+              <!-- Customers Card -->
+              <div class="col-xxl-4 col-xl-12 p-4">
+                <div class="card info-card customers-card">
+                  <div class="card-body">
+                    <h5 class="card-title">Total Albums</h5>
 
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                      >
+                        <i class="bi bi-people"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>{{total_albums}}</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Customers Card -->
+
+              <!-- Reports -->
+              <div class="col-12 p-4">
+                <div class="card p-2">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      Reports<span>/genre Popularity</span>
+                    </h5>
+
+                    <!-- Column Chart -->
+                    <div id="columnChart1"></div>
                   <!-- Column Chart -->
                   <div id="columnChart1"></div>
 
-                  <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      new ApexCharts(document.querySelector("#columnChart1"), {
-                        series: [{
-                          name: "Genres",
-                          data: {{ chart_data | tojson }},
-      }],
-                      chart: {
-                      type: "bar",
-                      height: 350,
-                    },
-                      plotOptions: {
-                      bar: {
-                        horizontal: false,
-                        columnWidth: "55%",
-                        endingShape: "rounded",
-                      },
-                    },
-                      dataLabels: {
-                      enabled: false,
-                    },
-                      stroke: {
-                      show: true,
-                      width: 2,
-                      colors: ["transparent"],
-                    },
-                      xaxis: {
-                      categories: {{ chart_categories | tojson }},
-      },
-                      yaxis: {
-                      title: {
-                        text: "Number of Uploads",
-                      },
-                    },
-                      fill: {
-                      opacity: 1,
-                    },
-                      tooltip: {
-                      y: {
-                        formatter: function (val) {
-                          return val;
-                        },
-                      },
-                    },
-    }).render();
-  });
-                  </script>
-                  <!-- End Column Chart -->
+                                      <script>
+                                        document.addEventListener("DOMContentLoaded", () => {
+                                          new ApexCharts(document.querySelector("#columnChart1"), {
+                                            series: [{
+                                              name: "count",
+                                              data: {{ chart_data | tojson }},
+                          }],
+                                          chart: {
+                                          type: "bar",
+                                          height: 350,
+                                        },
+                                          plotOptions: {
+                                          bar: {
+                                            horizontal: false,
+                                            columnWidth: "55%",
+                                            endingShape: "rounded",
+                                          },
+                                        },
+                                          dataLabels: {
+                                          enabled: false,
+                                        },
+                                          stroke: {
+                                          show: true,
+                                          width: 2,
+                                          colors: ["transparent"],
+                                        },
+                                          xaxis: {
+                                          categories: {{ chart_categories | tojson }},
+                          },
+                                          yaxis: {
+                                          title: {
+                                            text: "Number of Uploads",
+                                          },
+                                        },
+                                          fill: {
+                                          opacity: 1,
+                                        },
+                                          tooltip: {
+                                          y: {
+                                            formatter: function (val) {
+                                              return val;
+                                            },
+                                          },
+                                        },
+                        }).render();
+                      });
+                                      </script>
+                                      <!-- End Column Chart -->
 
-                  <!-- End Line Chart -->
+                    <!-- End Line Chart -->
+                  </div>
                 </div>
-              </div>
-              <div class="card p-2 mt-2">
-                <div class="card-body">
-                  <h5 class="card-title">Uploads of tracks and albums</h5>
+                <div class="card p-2 mt-2">
+                  <div class="card-body">
+                    <h5 class="card-title">Uploads of tracks and albums</h5>
 
-                  <!-- Column Chart -->
-                  <div id="columnChart"></div>
+                    <!-- Column Chart -->
+                    <div id="columnChart"></div>
 
-                  <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      new ApexCharts(document.querySelector("#columnChart"), {
-                        series: [
-                          {
-                            name: "Tracks",
-                            data: [20, 15, 17, 30, 21, 18, 22, 10, 16],
-                          },
-                          {
-                            name: "Albums",
-                            data: [4, 7, 5, 6, 6, 5, 6, 0, 6],
-                          },
-                        ],
-                        chart: {
-                          type: "bar",
-                          height: 350,
-                        },
-                        plotOptions: {
-                          bar: {
-                            horizontal: false,
-                            columnWidth: "55%",
-                            endingShape: "rounded",
-                          },
-                        },
-                        dataLabels: {
-                          enabled: false,
-                        },
-                        stroke: {
-                          show: true,
-                          width: 2,
-                          colors: ["transparent"],
-                        },
-                        xaxis: {
-                          categories: [
-                            "Feb",
-                            "Mar",
-                            "Apr",
-                            "May",
-                            "Jun",
-                            "Jul",
-                            "Aug",
-                            "Sep",
-                            "Oct",
+                    <script>
+                      document.addEventListener("DOMContentLoaded", () => {
+                        new ApexCharts(document.querySelector("#columnChart"), {
+                          series: [
+                            {
+                              name: "Tracks",
+                              data: [20, 15, 17, 30, 21, 18, 22, 10, 16],
+                            },
+                            {
+                              name: "Albums",
+                              data: [4, 7, 5, 6, 6, 5, 6, 0, 6],
+                            },
                           ],
-                        },
-                        yaxis: {
-                          title: {
-                            text: "Albums/tracks uploaded",
+                          chart: {
+                            type: "bar",
+                            height: 350,
                           },
-                        },
-                        fill: {
-                          opacity: 1,
-                        },
-                        tooltip: {
-                          y: {
-                            formatter: function (val) {
-                              return val;
+                          plotOptions: {
+                            bar: {
+                              horizontal: false,
+                              columnWidth: "55%",
+                              endingShape: "rounded",
                             },
                           },
-                        },
-                      }).render();
-                    });
-                  </script>
-                  <!-- End Column Chart -->
+                          dataLabels: {
+                            enabled: false,
+                          },
+                          stroke: {
+                            show: true,
+                            width: 2,
+                            colors: ["transparent"],
+                          },
+                          xaxis: {
+                            categories: [
+                              "Feb",
+                              "Mar",
+                              "Apr",
+                              "May",
+                              "Jun",
+                              "Jul",
+                              "Aug",
+                              "Sep",
+                              "Oct",
+                            ],
+                          },
+                          yaxis: {
+                            title: {
+                              text: "Albums/tracks uploaded",
+                            },
+                          },
+                          fill: {
+                            opacity: 1,
+                          },
+                          tooltip: {
+                            y: {
+                              formatter: function (val) {
+                                return val;
+                              },
+                            },
+                          },
+                        }).render();
+                      });
+                    </script>
+                    <!-- End Column Chart -->
+                  </div>
                 </div>
               </div>
+              <!-- End Reports -->
             </div>
-            <!-- End Reports -->
           </div>
-        </div>
-        <!-- End Left side columns -->
+          <!-- End Left side columns -->
 
-        <!-- Right side columns -->
-        <div class="col-lg-4 p-4">
-          <!-- Recent Activity -->
-          <div class="card my-2">
-            <div class="card-body">
-              <h5 class="card-title">Recent Activity</h5>
+          <!-- Right side columns -->
+          <div class="col-lg-4 p-4">
+            <!-- Recent Activity -->
+            <div class="card my-2">
+              <div class="card-body">
+                <h5 class="card-title">Recent Activity</h5>
 
-              <div class="activity">
-                <div class="container">
-                  <div class="d-flex flex-column align-items-center">
-                    <h3 class="container">
-                      Normal Users: <strong>10000</strong>
-                    </h3>
-                    <h3 class="container">Creators: <strong>1000</strong></h3>
+                <div class="activity">
+                  <div class="container">
+                    <div class="d-flex flex-column align-items-center">
+                      <h3 class="container">
+                        Normal Users: <strong>10000</strong>
+                      </h3>
+                      <h3 class="container">Creators: <strong>1000</strong></h3>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!-- End Recent Activity -->
+            <!-- End Recent Activity -->
 
-          <!-- Website Traffic -->
-          <div class="card p-4">
-            <div class="card-body pb-0">
-              <h5 class="card-title">Top 10 songs of the day</h5>
-              <div id="trafficChart" style="min-height: 400px" class="echart"></div>
+            <!-- Website Traffic -->
+            <div class="card p-4">
+              <div class="card-body pb-0">
+                <h5 class="card-title">Top 10 songs of the day</h5>
+                <div
+                  id="trafficChart"
+                  style="min-height: 400px"
+                  class="echart"
+                ></div>
 
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  echarts
-                    .init(document.querySelector("#trafficChart"))
-                    .setOption({
-                      tooltip: {
-                        trigger: "item",
-                      },
-                      legend: {
-                        top: "5%",
-                        left: "center",
-                      },
-                      series: [
-                        {
-                          name: "Song: ",
-                          type: "pie",
-                          radius: ["40%", "70%"],
-                          avoidLabelOverlap: false,
-                          label: {
-                            show: false,
-                            position: "center",
-                          },
-                          emphasis: {
-                            label: {
-                              show: true,
-                              fontSize: "18",
-                              fontWeight: "bold",
-                            },
-                          },
-                          labelLine: {
-                            show: false,
-                          },
-                          data: [
-                            {
-                              value: 1048,
-                              name: "Thunder",
-                            },
-                            {
-                              value: 735,
-                              name: "Faded",
-                            },
-                            {
-                              value: 580,
-                              name: "Bad liar",
-                            },
-                            {
-                              value: 484,
-                              name: "Bad blood",
-                            },
-                            {
-                              value: 300,
-                              name: "Vardaan",
-                            },
-                            {
-                              value: 300,
-                              name: "Alone",
-                            },
-                            {
-                              value: 300,
-                              name: "Thug",
-                            },
-                          ],
+                <script>
+                  document.addEventListener("DOMContentLoaded", () => {
+                    echarts
+                      .init(document.querySelector("#trafficChart"))
+                      .setOption({
+                        tooltip: {
+                          trigger: "item",
                         },
-                      ],
-                    });
-                });
-              </script>
+                        legend: {
+                          top: "5%",
+                          left: "center",
+                        },
+                        series: [
+                          {
+                            name: "Song: ",
+                            type: "pie",
+                            radius: ["40%", "70%"],
+                            avoidLabelOverlap: false,
+                            label: {
+                              show: false,
+                              position: "center",
+                            },
+                            emphasis: {
+                              label: {
+                                show: true,
+                                fontSize: "18",
+                                fontWeight: "bold",
+                              },
+                            },
+                            labelLine: {
+                              show: false,
+                            },
+                            data: [
+                              {
+                                value: 1048,
+                                name: "Thunder",
+                              },
+                              {
+                                value: 735,
+                                name: "Faded",
+                              },
+                              {
+                                value: 580,
+                                name: "Bad liar",
+                              },
+                              {
+                                value: 484,
+                                name: "Bad blood",
+                              },
+                              {
+                                value: 300,
+                                name: "Vardaan",
+                              },
+                              {
+                                value: 300,
+                                name: "Alone",
+                              },
+                              {
+                                value: 300,
+                                name: "Thug",
+                              },
+                            ],
+                          },
+                        ],
+                      });
+                  });
+                </script>
+              </div>
             </div>
+            <!-- End Website Traffic -->
+
+            <!-- News & Updates Traffic -->
           </div>
-          <!-- End Website Traffic -->
-
-          <!-- News & Updates Traffic -->
+          <!-- End Right side columns -->
         </div>
-        <!-- End Right side columns -->
+      </section>
+    </main>
+    <!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Amins panel</span></strong
+        >. All Rights Reserved
       </div>
-    </section>
-  </main>
-  <!-- End #main -->
+    </footer>
+    <!-- End Footer -->
 
-  <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>Amins panel</span></strong>. All Rights Reserved
-    </div>
-  </footer>
-  <!-- End Footer -->
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-      class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Vendor JS Files -->
-  <script src="{{ url_for('static', filename='vendor/apexcharts/apexcharts.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='vendor/chart.js/chart.umd.js') }}"></script>
-  <script src="{{ url_for('static', filename='vendor/echarts/echarts.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='vendor/quill/quill.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='vendor/simple-datatables/simple-datatables.js') }}"></script>
-  <script src="{{ url_for('static', filename='vendor/tinymce/tinymce.min.js') }}"></script>
-  <!-- Template Main JS File -->
-  <script src="{{ url_for('static', filename='vendor/main.js') }}"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>
-</body>
-
+    <!-- Vendor JS Files -->
+    <script src="{{ url_for('static', filename='vendor/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/chart.js/chart.umd.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/echarts/echarts.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/quill/quill.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/simple-datatables/simple-datatables.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/tinymce/tinymce.min.js') }}"></script>
+    <!-- Template Main JS File -->
+    <script src="{{ url_for('static', filename='vendor/main.js') }}"></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
+    ></script>
+  </body>
 </html>
