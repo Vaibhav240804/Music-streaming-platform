@@ -270,6 +270,7 @@ def admin():
         (current_date,),
     )
     genre_day_counts = cursor.fetchall()
+    print(genre_day_counts)
 
     genre_counts = {}
     for entry in genre_day_counts:
@@ -283,15 +284,20 @@ def admin():
 
     for genre, count in genre_counts.items():
         print(f"{genre}: {count}")
+    sorted_genre_counts = dict(sorted(genre_counts.items()))
+
+    # Convert the dictionary into separate lists for chart rendering
+    chart_categories = list(sorted_genre_counts.keys())
+    chart_data = list(sorted_genre_counts.values())
 
     return render_template(
         "admin.html",
-        genre_counts=genre_counts,
+        chart_categories=chart_categories,
+        chart_data=chart_data,
         total_genres=total_genres,
         total_filenames=total_filenames,
         total_albums=total_albums,
     )
-
 
 @app.route("/creator", methods=["GET","POST"])
 def creator():
