@@ -42,7 +42,9 @@
           <span class="navbar-text"></span>
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/home">Home</a>
+              <a class="nav-link active" aria-current="page" href="/home"
+                >Home</a
+              >
             </li>
             <li class="nav-item">
               <a class="nav-link active" href="/uploadsong">Upload song</a>
@@ -66,6 +68,11 @@
       <div class="w-50">
         <form action="/uploadsong" method="post" enctype="multipart/form-data">
           <!-- Name input -->
+          {% if error %}
+          <p style="color: red">{{ error }}</p>
+          {% endif %} {% if message %}
+          <p style="color: green">{{ message }}</p>
+          {% endif %}
           <div class="form-outline mb-4" style="color: whitesmoke">
             <input
               type="text"
@@ -85,36 +92,36 @@
           <!-- Email input -->
           <div class="form-outline mb-4" style="color: whitesmoke">
             <input
-            type="text"
+              type="text"
               name="artist"
               id="form5Example2"
               class="form-control p-2"
               style="color: whitesmoke"
-              />
-              <label
+            />
+            <label
               class="form-label"
               for="form5Example2"
               style="color: whitesmoke"
               >Artist</label
-              >
-            </div>
+            >
+          </div>
           <div class="form-outline mb-4" style="color: whitesmoke">
             <input
-            type="text"
+              type="text"
               name="genre"
               id="form5Example2"
               class="form-control p-2"
               style="color: whitesmoke"
-              />
-              <label
+            />
+            <label
               class="form-label"
               for="form5Example2"
               style="color: whitesmoke"
               >Genre</label
-              >
-            </div>
-            <div class="form-outline mb-4" style="color: whitesmoke">
-              <input
+            >
+          </div>
+          <div class="form-outline mb-4" style="color: whitesmoke">
+            <input
               type="text"
               name="duration"
               id="form5Example2"
@@ -127,9 +134,9 @@
               style="color: whitesmoke"
               >Duration</label
             >
-            </div>
-            <div class="form-outline mb-4" style="color: whitesmoke">
-              <input
+          </div>
+          <div class="form-outline mb-4" style="color: whitesmoke">
+            <input
               type="text"
               name="album_name"
               id="form5Example2"
@@ -142,7 +149,8 @@
               style="color: whitesmoke"
               >Album Name</label
             >
-            </div>
+          </div>
+
           <div class="form-outline mb-4" style="color: whitesmoke">
             <input
               type="date"
@@ -163,7 +171,10 @@
               id="file"
               class="form-control p-2"
               style="color: whitesmoke"
-              type="file" name="file" accept=".mp3" required
+              type="file"
+              name="file"
+              accept=".mp3"
+              required
             />
             <!-- <label
               class="form-label"
@@ -195,12 +206,6 @@
           >
             Upload
           </button>
-          {% if error %}
-          <p style="color: red">{{ error }}</p>
-          {% endif %}
-          {% if message %}
-          <p style="color: green">{{ message }}</p>
-          {% endif %}
         </form>
       </div>
     </main>
