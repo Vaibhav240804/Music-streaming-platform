@@ -382,9 +382,61 @@ def creator():
             return render_template("creator.html", error="Error in selecting genre")
 
 
-@app.route("/tracklist", methods=["GET"])
+@app.route("/tracklist", methods=["GET", "POST"])
 def tracklist():
+    if request.method == "GET":
+        # i want to create a list with key as genre and value as list of songs in that genre
+        # we will do it as
+        # first we will fetch all the genres from the database
+        # then we will iterate over the genres and for each genre we will fetch all the songs in that genre
+        # we will create a dictionary with key as genre and value as list of songs in that genre as follows
+
+        cursor.execute("SELECT DISTINCT genre FROM uploadsong")
+        genres = cursor.fetchall()
+        genres = [genre[0] for genre in genres]
+        print(genres)
+
+        genre_songs = {}
+        for genre in genres:
+            cursor.execute("SELECT * FROM uploadsong WHERE genre = ?", (genre,))
+            songs = cursor.fetchall()
+            songs = [song for song in songs]
+            print(songs)
+            print("\n")
+            genre_songs[genre] = songs
+            
+        print(genre_songs)
+        return render_template("adminflag.html",genresnsongs=genre_songs)   
     return render_template("adminflag.html")
+
+
+@app.route("/flagunflag/<id>", methods=["GET", "POST"])
+def flagunflag(id):
+    if request.method == "GET":
+        cursor.execute("SELECT isFlagged FROM uploadsong WHERE uploadsong_id = ?", (id,))
+        isFlagged = cursor.fetchone()
+        if isFlagged is not None:
+            isFlagged = isFlagged[0]
+            if isFlagged == 0:
+                cursor.execute("UPDATE uploadsong SET isFlagged = 1 WHERE uploadsong_id = ?", (id,))
+                conn.commit()
+                return redirect("/tracklist")
+            else:
+                cursor.execute("UPDATE uploadsong SET isFlagged = 0 WHERE uploadsong_id = ?", (id,))
+                conn.commit()
+                return redirect("/tracklist")
+        else:
+            return redirect("/tracklist")
+    return redirect("/tracklist")
+
+
+@app.route("/delete/<id>", methods=["GET", "POST"])
+def delete(id):
+    if request.method == "GET":
+        cursor.execute("DELETE FROM uploadsong WHERE uploadsong_id = ?", (id,))
+        conn.commit()
+        return redirect("/tracklist")
+    return redirect("/tracklist")
 
 
 @app.route("/loginadmin", methods=["GET", "POST"])
