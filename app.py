@@ -442,25 +442,31 @@ def tracklist():
             print(songs)
             print("\n")
             genre_songs[genre] = songs
-            
+
         print(genre_songs)
-        return render_template("adminflag.html",genresnsongs=genre_songs)   
+        return render_template("adminflag.html", genresnsongs=genre_songs)
     return render_template("adminflag.html")
 
 
 @app.route("/flagunflag/<id>", methods=["GET", "POST"])
 def flagunflag(id):
     if request.method == "GET":
-        cursor.execute("SELECT isFlagged FROM uploadsong WHERE uploadsong_id = ?", (id,))
+        cursor.execute(
+            "SELECT isFlagged FROM uploadsong WHERE uploadsong_id = ?", (id,)
+        )
         isFlagged = cursor.fetchone()
         if isFlagged is not None:
             isFlagged = isFlagged[0]
             if isFlagged == 0:
-                cursor.execute("UPDATE uploadsong SET isFlagged = 1 WHERE uploadsong_id = ?", (id,))
+                cursor.execute(
+                    "UPDATE uploadsong SET isFlagged = 1 WHERE uploadsong_id = ?", (id,)
+                )
                 conn.commit()
                 return redirect("/tracklist")
             else:
-                cursor.execute("UPDATE uploadsong SET isFlagged = 0 WHERE uploadsong_id = ?", (id,))
+                cursor.execute(
+                    "UPDATE uploadsong SET isFlagged = 0 WHERE uploadsong_id = ?", (id,)
+                )
                 conn.commit()
                 return redirect("/tracklist")
         else:
