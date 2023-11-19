@@ -254,18 +254,37 @@ def creatorsdash():
     for date, average_rating in average_ratings.items():
         print(f"Date: {date}, Average Rating: {average_rating}")
 
-    cursor.execute("SELECT creator_id FROM creator")
-
-    creator_ids = cursor.fetchall()
+    if "email" in session:
+        email = session["email"]
+        cursor.execute("SELECT creator_id FROM creator WHERE email = ?", (email,))
+        creator_ids = cursor.fetchall()
 
     for creator_id in creator_ids:
         cursor.execute(
             "SELECT COUNT(title) FROM uploadsong WHERE creator_id = ?", creator_id
         )
 
-    title_count = cursor.fetchone()[0]
+        title_count = cursor.fetchone()[0]
 
-    print(f"Creator ID: {creator_id[0]}, Songs Count: {title_count}")
+        print(f"Creator ID: {creator_id[0]}, Songs Count: {title_count}")
+
+    for creator_id in creator_ids:
+        cursor.execute(
+            "SELECT album_id FROM uploadsong WHERE creator_id = ?", creator_id
+        )
+
+        album_ids = cursor.fetchall()
+
+        for album_id in album_ids:
+            cursor.execute(
+                "SELECT COUNT(Album_name) FROM Albums WHERE Album_ID = ?", album_id
+            )
+
+            album_name_count = cursor.fetchone()[0]
+
+            print(
+                f"Creator ID: {creator_id[0]}, Album ID: {album_id[0]}, Album Name Count: {album_name_count}"
+            )
     return render_template("creatordash.html")
 
 
@@ -298,7 +317,7 @@ def adminsearch():
     )
     genres = cursor.fetchall()
     genres = [genre[0] for genre in genres]
-    
+
     genre_songs = {}
     for genre in genres:
         cursor.execute(
@@ -308,13 +327,11 @@ def adminsearch():
         songs = cursor.fetchall()
         songs = [song for song in songs]
         genre_songs[genre] = songs
-    
+
     return render_template("adminflag.html", genresnsongs=genre_songs)
 
-        
 
-
-@app.route("/play/<id>", methods=["GET","POST"])
+@app.route("/play/<id>", methods=["GET", "POST"])
 def play(id):
     if request.method == "GET":
         cursor.execute("SELECT * FROM uploadsong WHERE uploadsong_id = ?", (id,))
@@ -333,7 +350,7 @@ def play(id):
                 return render_template("lyricsnplay.html", data=data)
     else:
         print("Received rating data from client")
-        rating = request.form["rate"] 
+        rating = request.form["rate"]
         print(f"Received rating: {rating}")
         # save this to database if present already by this user then update else insert
         if "username" in session:
@@ -587,6 +604,7 @@ def flagunflag(id):
         else:
             return redirect("/tracklist")
     return redirect("/tracklist")
+
 
 @app.route("/delete/<id>", methods=["GET", "POST"])
 def delete(id):
