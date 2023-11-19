@@ -86,10 +86,10 @@
               <a class="nav-link active" href="/uploadsong">Upload song</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="/useraccount">User account</a>
+              <a class="nav-link active" href="#">User account</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="logout">Log out</a>
+              <a class="nav-link active" href="#">Log out</a>
             </li>
           </ul>
         </div>
@@ -126,8 +126,8 @@
 
                 <script>
                   document.addEventListener("DOMContentLoaded", () => {
-                    let dates = JSON.parse("{{ dates | tojson | safe }}");
-                    let ratings = JSON.parse("{{ ratings | tojson | safe }}");
+                    let dates = {{ dates | tojson | safe }};
+                    let ratings = {{ ratings | tojson | safe }};
 
                     new ApexCharts(document.querySelector("#reportsChart"), {
                       series: [

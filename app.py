@@ -334,6 +334,7 @@ def creatorsdash():
             print(
                 f"Creator ID: {creator_id[0]}, Album ID: {album_id[0]}, Album Name Count: {album_name_count}"
             )
+<<<<<<< HEAD
     return render_template(
         "creatordash.html",
         dates=dates,
@@ -341,6 +342,10 @@ def creatorsdash():
         title_count=title_count,
         album_count=album_name_count,
     )
+=======
+    print(ratings,dates)
+    return render_template("creatordash.html", dates=dates, ratings=ratings, title_count=title_count, album_count=album_name_count)
+>>>>>>> 4f924199e757cea184dd9d6ea6d988c5cdd79153
 
 
 @app.route("/uploads/<filename>", methods=["GET"])
