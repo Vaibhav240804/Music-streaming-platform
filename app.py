@@ -144,11 +144,34 @@ def fetchedsongdata():
     try:
         conn = sqlite3.connect("user_data.db", check_same_thread=False)
         cursor = conn.cursor()
+        # we will send data to template of all songs in descending order of songs avg rating, ratings resides in likes table, ih this table user have multiple ratings for a song then we will take average of all ratings and then sort the songs in descending order of avg ratings and we will do this for all songs
 
-        cursor.execute("SELECT * FROM uploadsong")
-        data = cursor.fetchall()
-        print(data)
-        return render_template("home.html", data=data)
+        cursor.execute(
+            "SELECT uploadsong_id FROM Likes GROUP BY uploadsong_id ORDER BY AVG(rating) DESC"
+        )
+        uploadsong_ids = cursor.fetchall()
+        uploadsong_ids = [uploadsong_id[0] for uploadsong_id in uploadsong_ids]
+        print(uploadsong_ids)
+        print("\n")
+
+        # now we will fetch all the songs from uploadsong table in the order of uploadsong_ids
+        songs = []
+        for uploadsong_id in uploadsong_ids:
+            cursor.execute(
+                "SELECT * FROM uploadsong WHERE uploadsong_id = ?", (uploadsong_id,)
+            )
+            song = cursor.fetchone()
+            songs.append(song)
+        # now we will append rest songs which are unrated
+        cursor.execute(
+            "SELECT * FROM uploadsong WHERE uploadsong_id NOT IN (SELECT uploadsong_id FROM Likes)"
+        )
+        unrated_songs = cursor.fetchall()
+        for unrated_song in unrated_songs:
+            songs.append(unrated_song)
+        print(songs)
+        return render_template("home.html", data=songs)
+        
 
     except Exception as e:
         return f"Error: {str(e)}"
