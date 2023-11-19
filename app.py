@@ -189,7 +189,20 @@ def fetchedsongdata():
         cursor.execute("SELECT Album_name, Release_Date FROM Albums")
         albums_data = cursor.fetchall()
 
-        return render_template("home.html", data=songs, album_data=albums_data)
+        cursor.execute("SELECT DISTINCT genre FROM uploadsong")
+        genre_data = cursor.fetchall()
+
+        # Fetch artist and date from uploadsong table
+        cursor.execute("SELECT DISTINCT artist FROM uploadsong")
+        artist_date_data = cursor.fetchall()
+
+        return render_template(
+            "home.html",
+            data=songs,
+            album_data=albums_data,
+            genre_data=genre_data,
+            artist_date_data=artist_date_data,
+        )
 
     except Exception as e:
         return f"Error: {str(e)}"
@@ -334,7 +347,7 @@ def creatorsdash():
             print(
                 f"Creator ID: {creator_id[0]}, Album ID: {album_id[0]}, Album Name Count: {album_name_count}"
             )
-<<<<<<< HEAD
+    print(ratings, dates)
     return render_template(
         "creatordash.html",
         dates=dates,
@@ -342,10 +355,6 @@ def creatorsdash():
         title_count=title_count,
         album_count=album_name_count,
     )
-=======
-    print(ratings,dates)
-    return render_template("creatordash.html", dates=dates, ratings=ratings, title_count=title_count, album_count=album_name_count)
->>>>>>> 4f924199e757cea184dd9d6ea6d988c5cdd79153
 
 
 @app.route("/uploads/<filename>", methods=["GET"])
@@ -735,11 +744,6 @@ def register_admin():
 
     # Redirect to login page after successful registration
     return redirect("/loginadmin")
-
-
-@app.route("/home")
-def homepage():
-    return render_template("home.html")
 
 
 # admin dash kiti genre aataparyant aale || no of filenames from uploasong || total albums from album_id Albums

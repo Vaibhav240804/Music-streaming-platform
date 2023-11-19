@@ -1,289 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home page</title>
-    <link
-      href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}"
-      rel="stylesheet"
-    />
-    <link
-      href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}"
-      rel="stylesheet"
-    />
-    <link
-      href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}"
-      rel="stylesheet"
-    />
-    <link
-      href="{{ url_for('static', filename='vendor/quill/quill.snow.css') }}"
-      rel="stylesheet"
-    />
-    <link
-      href="{{ url_for('static', filename='vendor/quill/quill.bubble.css') }}"
-      rel="stylesheet"
-    />
-    <link
-      href="{{ url_for('static', filename='vendor/remixicon/remixicon.css') }}"
-      rel="stylesheet"
-    />
-    <link
-      href="{{ url_for('static', filename='vendor/simple-datatables/style.css') }}"
-      rel="stylesheet"
-    />
-    <!-- Template Main CSS File -->
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-      rel="stylesheet"
-    />
-    <!-- MDB -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='global.css') }}"
-    />
-  </head>
-  <body
-    style="
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home page</title>
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='vendor/quill/quill.snow.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='vendor/quill/quill.bubble.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='vendor/remixicon/remixicon.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='vendor/simple-datatables/style.css') }}" rel="stylesheet" />
+  <!-- Template Main CSS File -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+  <!-- MDB -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}" />
+</head>
+
+<body style="
       background-color: #0093e9;
       background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
-    "
-  >
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Creators account</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-mdb-toggle="collapse"
-          data-mdb-target="#navbarText"
-          aria-controls="navbarText"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-          <span class="navbar-text"></span>
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="/uploadsong">Upload song</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="#">User account</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="#">Log out</a>
-            </li>
-          </ul>
-        </div>
+    ">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Creators account</a>
+      <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarText"
+        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <span class="navbar-text"></span>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/uploadsong">Upload song</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/useraccount">User account</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/logout">Log out</a>
+          </li>
+        </ul>
       </div>
-    </nav>
-    <div class="vw-100 min-vh-100 p-4">
-      <div
-        class="w-100 h-50 mb-4 d-flex flex-column align-items-center justify-content-evenly"
-      >
-        <div
-          class="px-8 w-75 d-flex flex-row align-items-center justify-content-between"
-        >
-          <h3>Dashboard</h3>
-          <span></span>
+    </div>
+  </nav>
+  <div class="vw-100 min-vh-100 p-4">
+    <div class="w-100 h-50 mb-4 d-flex flex-column align-items-center justify-content-evenly">
+      <div class="px-8 w-75 d-flex flex-row align-items-center justify-content-between">
+        <h3>Dashboard</h3>
+        <span></span>
+      </div>
+      <div class="w-100 h-75 d-flex flex-row justify-content-evenly align-items-center">
+        <div class="w-25 card h-100 d-flex flex-column align-items-center justify-content-evenly border-secondary">
+          <strong>Songs uploaded</strong><strong>{{title_count}}</strong>
         </div>
-        <div
-          class="w-100 h-75 d-flex flex-row justify-content-evenly align-items-center"
-        >
-          <div
-            class="w-25 card h-100 d-flex flex-column align-items-center justify-content-evenly border-secondary"
-          >
-            <strong>Songs uploaded</strong><strong>{{title_count}}</strong>
-          </div>
-          <div
-            class="w-50 h-75 d-flex flex-column align-items-center justify-content-evenly border-secondary"
-          >
-            <div class="card p-2">
-              <!-- Your existing HTML content -->
-              <div class="card-body">
-                <h5 class="card-title">Average rating</h5>
+        <div class="w-50 h-75 d-flex flex-column align-items-center justify-content-evenly border-secondary">
+          <div class="card p-2">
+            <!-- Your existing HTML content -->
+            <div class="card-body">
+              <h5 class="card-title">Average rating</h5>
 
-                <!-- Line Chart -->
-                <div id="reportsChart"></div>
+              <!-- Line Chart -->
+              <div id="reportsChart"></div>
 
-                <script>
-                  document.addEventListener("DOMContentLoaded", () => {
-                    let dates = {{ dates | tojson | safe }};
-                    let ratings = {{ ratings | tojson | safe }};
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  let dates = {{ dates | tojson | safe
+                }};
+                let ratings = {{ ratings | tojson | safe }};
 
-                    new ApexCharts(document.querySelector("#reportsChart"), {
-                      series: [
-                        {
-                          name: "Average Ratings",
-                          data: ratings,
-                        },
-                      ],
-                      chart: {
-                        height: 250,
-                        type: "line",
-                        toolbar: {
-                          show: false,
-                        },
-                      },
-                      xaxis: {
-                        type: "category",
-                        categories: dates,
-                      },
-                      // Additional chart options...
-                    }).render();
+                new ApexCharts(document.querySelector("#reportsChart"), {
+                  series: [
+                    {
+                      name: "Average Ratings",
+                      data: ratings,
+                    },
+                  ],
+                  chart: {
+                    height: 250,
+                    type: "line",
+                    toolbar: {
+                      show: false,
+                    },
+                  },
+                  xaxis: {
+                    type: "category",
+                    categories: dates,
+                  },
+                  // Additional chart options...
+                }).render();
                   });
-                </script>
-                <!-- End Line Chart -->
-              </div>
-              <!-- More of your HTML content -->
+              </script>
+              <!-- End Line Chart -->
             </div>
+            <!-- More of your HTML content -->
           </div>
-          <div
-            class="w-25 card h-100 d-flex flex-column align-items-center justify-content-evenly border-secondary"
-          >
-            <strong>Total albums</strong><strong>{{album_count}}</strong>
-          </div>
+        </div>
+        <div class="w-25 card h-100 d-flex flex-column align-items-center justify-content-evenly border-secondary">
+          <strong>Total albums</strong><strong>{{album_count}}</strong>
         </div>
       </div>
-      <div
-        class="w-100 vh-50 d-flex flex-column align-items-center justify-content-evenly"
-      >
-        <div
-          class="px-8 w-75 d-flex flex-row align-items-center justify-content-between"
-        >
-          <h3>Tracks</h3>
-          <a
-            href="/uploadsong"
-            role="button"
-            class="btn btn-light btn-outline-secondary btn-rounded"
-            >Upload song</a
-          >
-        </div>
-        <div
-          class="w-100 d-flex flex-row justify-content-evenly align-items-center"
-        >
-          <div
-            class="d-flex card flex-column align-items-center w-75 mt-4 p-4 overflow-auto"
-            style="max-height: 40vh"
-          >
-            <div
-              class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
-              style="color: grey; height: 50px"
-            >
-              <h5>track 1</h5>
-              <span class="badge rounded-pill badge-success">Not flagged</span>
-              <a type="button" class="btn btn-secondary">view lyrics</a>
-              <a type="button" class="btn btn-secondary">Edit</a>
-              <a type="button" class="btn btn-secondary">delete</a>
-            </div>
-            <div
-              class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
-              style="color: grey; height: 50px"
-            >
-              <h5>track 1</h5>
-              <span class="badge rounded-pill badge-success">Not flagged</span>
-              <a type="button" class="btn btn-secondary">view lyrics</a>
-              <a type="button" class="btn btn-secondary">Edit</a>
-              <a type="button" class="btn btn-secondary">delete</a>
-            </div>
-            <div
-              class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
-              style="color: grey; height: 50px"
-            >
-              <h5>track 1</h5>
-              <span class="badge rounded-pill badge-success">Not flagged</span>
-              <a type="button" class="btn btn-secondary">view lyrics</a>
-              <a type="button" class="btn btn-secondary">Edit</a>
-              <a type="button" class="btn btn-secondary">delete</a>
-            </div>
-            <div
-              class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
-              style="color: grey; height: 50px"
-            >
-              <h5>track 1</h5>
-              <span class="badge rounded-pill badge-success">Not flagged</span>
-              <a type="button" class="btn btn-secondary">view lyrics</a>
-              <a type="button" class="btn btn-secondary">Edit</a>
-              <a type="button" class="btn btn-secondary">delete</a>
-            </div>
-            <div
-              class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
-              style="color: grey; height: 50px"
-            >
-              <h5>track 1</h5>
-              <span class="badge rounded-pill badge-success">Not flagged</span>
-              <a type="button" class="btn btn-secondary">view lyrics</a>
-              <a type="button" class="btn btn-secondary">Edit</a>
-              <a type="button" class="btn btn-secondary">delete</a>
-            </div>
-            <div
-              class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
-              style="color: grey; height: 50px"
-            >
-              <h5>track 1</h5>
-              <span class="badge rounded-pill badge-success">Not flagged</span>
-              <a type="button" class="btn btn-secondary">view lyrics</a>
-              <a type="button" class="btn btn-secondary">Edit</a>
-              <a type="button" class="btn btn-secondary">delete</a>
-            </div>
-            <div
-              class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
-              style="color: grey; height: 50px"
-            >
-              <h5>track 1</h5>
-              <span class="badge rounded-pill badge-success">Not flagged</span>
-              <a type="button" class="btn btn-secondary">view lyrics</a>
-              <a type="button" class="btn btn-secondary">Edit</a>
-              <a type="button" class="btn btn-secondary">delete</a>
-            </div>
-            <div
-              class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
-              style="color: grey; height: 50px"
-            >
-              <h5>track 1</h5>
-              <span class="badge rounded-pill badge-success">Not flagged</span>
-              <a type="button" class="btn btn-secondary">view lyrics</a>
-              <a type="button" class="btn btn-secondary">Edit</a>
-              <a type="button" class="btn btn-secondary">delete</a>
-            </div>
-            <div
-              class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
-              style="color: grey; height: 50px"
-            >
-              <h5>track 1</h5>
-              <span class="badge rounded-pill badge-success">Not flagged</span>
-              <a type="button" class="btn btn-secondary">view lyrics</a>
-              <a type="button" class="btn btn-secondary">Edit</a>
-              <a type="button" class="btn btn-secondary">delete</a>
-            </div>
+    </div>
+    <div class="w-100 vh-50 d-flex flex-column align-items-center justify-content-evenly">
+      <div class="px-8 w-75 d-flex flex-row align-items-center justify-content-between">
+        <h3>Tracks</h3>
+        <a href="/uploadsong" role="button" class="btn btn-light btn-outline-secondary btn-rounded">Upload song</a>
+      </div>
+      <div class="w-100 d-flex flex-row justify-content-evenly align-items-center">
+        <div class="d-flex card flex-column align-items-center w-75 mt-4 p-4 overflow-auto" style="max-height: 40vh">
+          <div class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
+            style="color: grey; height: 50px">
+            <h5>track 1</h5>
+            <span class="badge rounded-pill badge-success">Not flagged</span>
+            <a type="button" class="btn btn-secondary">view lyrics</a>
+            <a type="button" class="btn btn-secondary">Edit</a>
+            <a type="button" class="btn btn-secondary">delete</a>
+          </div>
+          <div class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
+            style="color: grey; height: 50px">
+            <h5>track 1</h5>
+            <span class="badge rounded-pill badge-success">Not flagged</span>
+            <a type="button" class="btn btn-secondary">view lyrics</a>
+            <a type="button" class="btn btn-secondary">Edit</a>
+            <a type="button" class="btn btn-secondary">delete</a>
+          </div>
+          <div class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
+            style="color: grey; height: 50px">
+            <h5>track 1</h5>
+            <span class="badge rounded-pill badge-success">Not flagged</span>
+            <a type="button" class="btn btn-secondary">view lyrics</a>
+            <a type="button" class="btn btn-secondary">Edit</a>
+            <a type="button" class="btn btn-secondary">delete</a>
+          </div>
+          <div class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
+            style="color: grey; height: 50px">
+            <h5>track 1</h5>
+            <span class="badge rounded-pill badge-success">Not flagged</span>
+            <a type="button" class="btn btn-secondary">view lyrics</a>
+            <a type="button" class="btn btn-secondary">Edit</a>
+            <a type="button" class="btn btn-secondary">delete</a>
+          </div>
+          <div class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
+            style="color: grey; height: 50px">
+            <h5>track 1</h5>
+            <span class="badge rounded-pill badge-success">Not flagged</span>
+            <a type="button" class="btn btn-secondary">view lyrics</a>
+            <a type="button" class="btn btn-secondary">Edit</a>
+            <a type="button" class="btn btn-secondary">delete</a>
+          </div>
+          <div class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
+            style="color: grey; height: 50px">
+            <h5>track 1</h5>
+            <span class="badge rounded-pill badge-success">Not flagged</span>
+            <a type="button" class="btn btn-secondary">view lyrics</a>
+            <a type="button" class="btn btn-secondary">Edit</a>
+            <a type="button" class="btn btn-secondary">delete</a>
+          </div>
+          <div class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
+            style="color: grey; height: 50px">
+            <h5>track 1</h5>
+            <span class="badge rounded-pill badge-success">Not flagged</span>
+            <a type="button" class="btn btn-secondary">view lyrics</a>
+            <a type="button" class="btn btn-secondary">Edit</a>
+            <a type="button" class="btn btn-secondary">delete</a>
+          </div>
+          <div class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
+            style="color: grey; height: 50px">
+            <h5>track 1</h5>
+            <span class="badge rounded-pill badge-success">Not flagged</span>
+            <a type="button" class="btn btn-secondary">view lyrics</a>
+            <a type="button" class="btn btn-secondary">Edit</a>
+            <a type="button" class="btn btn-secondary">delete</a>
+          </div>
+          <div class="w-100 mt-2 py-2 bg-light rounded d-flex align-items-center justify-content-evenly"
+            style="color: grey; height: 50px">
+            <h5>track 1</h5>
+            <span class="badge rounded-pill badge-success">Not flagged</span>
+            <a type="button" class="btn btn-secondary">view lyrics</a>
+            <a type="button" class="btn btn-secondary">Edit</a>
+            <a type="button" class="btn btn-secondary">delete</a>
           </div>
         </div>
       </div>
     </div>
-    <script src="{{ url_for('static', filename='vendor/apexcharts/apexcharts.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='vendor/main.js') }}"></script>
+  </div>
+  <script src="{{ url_for('static', filename='vendor/apexcharts/apexcharts.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/main.js') }}"></script>
 
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
-    ></script>
-  </body>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>
+</body>
+
 </html>
