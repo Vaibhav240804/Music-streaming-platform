@@ -240,8 +240,25 @@ def admin():
     )
     total_genres = cursor.fetchone()[0]  # Access the count using index 0
 
+    cursor.execute("SELECT COUNT(*) as total_filenames FROM uploadsong")
+    total_filenames = cursor.fetchone()[0]  # Access the count using index 0
+
+    # Query to get the count of distinct album_id entries
+    cursor.execute(
+        "SELECT COUNT(DISTINCT album_id) as total_albums FROM Albums",
+    )
+    total_albums = cursor.fetchone()[0]  # Access the count using index 0
+
+    print(total_filenames, total_albums)
+
     print(total_genres)
-    return render_template("admin.html", genre_counts=genre_counts, total_genres=total_genres)
+    return render_template(
+        "admin.html",
+        genre_counts=genre_counts,
+        total_genres=total_genres,
+        total_filenames=total_filenames,
+        total_albums=total_albums,
+    )
 
 
 @app.route("/creator", methods=["GET"])
