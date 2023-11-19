@@ -86,56 +86,16 @@
               margin: 0 auto;
               overflow-x: auto;
             ">
+          {% for album in album_data %}
           <div class="card m-2 hover-shadow" style="width: 300px; height: 100%">
             <div class="card-body px-2">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-              <a type="button" href="/userfetchesalbum" class="btn btn-light btn-rounded">Play</a>
+              <h5 class="card-title">{{ album[0] }}</h5>
+              <p class="card-text">Release Date: {{ album[1] }}</p>
+              <!-- Add any additional elements you want to display -->
             </div>
           </div>
-          <div class="card m-2 hover-shadow" style="width: 300px; height: 100%">
-            <div class="card-body px-2">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-              <a type="button" href="/userfetchesalbum" class="btn btn-light btn-rounded">Play</a>
-            </div>
-          </div>
-          <div class="card m-2 hover-shadow" style="width: 300px; height: 100%">
-            <div class="card-body px-2">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-              <a type="button" href="/userfetchesalbum" class="btn btn-light btn-rounded">Play</a>
-            </div>
-          </div>
-          <div class="card m-2 hover-shadow" style="width: 300px; height: 100%">
-            <div class="card-body px-2">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-              <a type="button" href="/userfetchesalbum" class="btn btn-light btn-rounded">Play</a>
-            </div>
-          </div>
-          <div class="card m-2 hover-shadow" style="width: 300px; height: 100%">
-            <div class="card-body px-2">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-              <a type="button" href="/userfetchesalbum" class="btn btn-light btn-rounded">Play</a>
-            </div>
-          </div>
+          {% endfor %}
+
         </div>
       </div>
     </div>

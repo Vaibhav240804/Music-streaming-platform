@@ -185,7 +185,11 @@ def fetchedsongdata():
         for unrated_song in unrated_songs:
             songs.append(unrated_song)
         print(songs)
-        return render_template("home.html", data=songs)
+
+        cursor.execute("SELECT Album_name, Release_Date FROM Albums")
+        albums_data = cursor.fetchall()
+
+        return render_template("home.html", data=songs, album_data=albums_data)
 
     except Exception as e:
         return f"Error: {str(e)}"
@@ -330,7 +334,13 @@ def creatorsdash():
             print(
                 f"Creator ID: {creator_id[0]}, Album ID: {album_id[0]}, Album Name Count: {album_name_count}"
             )
-    return render_template("creatordash.html", dates=dates, ratings=ratings, title_count=title_count, album_count=album_name_count)
+    return render_template(
+        "creatordash.html",
+        dates=dates,
+        ratings=ratings,
+        title_count=title_count,
+        album_count=album_name_count,
+    )
 
 
 @app.route("/uploads/<filename>", methods=["GET"])
