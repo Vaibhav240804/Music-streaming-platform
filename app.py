@@ -243,25 +243,33 @@ def uploaded_file(filename):
     return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
 
-@app.route("/play/<id>", methods=["GET"])
+@app.route("/play/<id>", methods=["GET","POST"])
 def play(id):
-    cursor.execute("SELECT * FROM uploadsong WHERE uploadsong_id = ?", (id,))
-    data = cursor.fetchone()
-    # also want to find rating of this song given by this user if any ->
-    # if yes then display the rating given by the user
+    if request.method == "GET":
+        cursor.execute("SELECT * FROM uploadsong WHERE uploadsong_id = ?", (id,))
+        data = cursor.fetchone()
+        # also want to find rating of this song given by this user if any ->
+        # if yes then display the rating given by the user
 
-    if "username" in session:
-        username = session["username"]
-        cursor.execute(
-            "SELECT rating FROM Likes WHERE username = ? AND uploadsong_id = ?",
-            (username, id),
-        )
-        rating = cursor.fetchone()
-        if rating is not None:
-            rating = rating[0]
-            return render_template("lyricsnplay.html", data=data, rating=rating)
-        else:
-            return render_template("lyricsnplay.html", data=data)
+        if "username" in session:
+            username = session["username"]
+            cursor.execute(
+                "SELECT rating FROM Likes WHERE username = ? AND uploadsong_id = ?",
+                (username, id),
+            )
+            rating = cursor.fetchone()
+            if rating is not None:
+                rating = rating[0]
+                return render_template("lyricsnplay.html", data=data, rating=rating)
+            else:
+                return render_template("lyricsnplay.html", data=data)
+    else:
+        print("Received rating data from client")
+        rating = request.json.get('rate')  # Accessing the submitted rating value
+        # Process the received rating data (e.g., save it to a database)
+        print(f"Received rating: {rating}")
+        # Return a response if needed
+        return 'Rating received'
     return render_template("lyricsnplay.html", data=data)
 
 
@@ -448,12 +456,6 @@ def creator():
 @app.route("/tracklist", methods=["GET", "POST"])
 def tracklist():
     if request.method == "GET":
-        # i want to create a list with key as genre and value as list of songs in that genre
-        # we will do it as
-        # first we will fetch all the genres from the database
-        # then we will iterate over the genres and for each genre we will fetch all the songs in that genre
-        # we will create a dictionary with key as genre and value as list of songs in that genre as follows
-
         cursor.execute("SELECT DISTINCT genre FROM uploadsong")
         genres = cursor.fetchall()
         genres = [genre[0] for genre in genres]
@@ -497,7 +499,6 @@ def flagunflag(id):
         else:
             return redirect("/tracklist")
     return redirect("/tracklist")
-
 
 @app.route("/delete/<id>", methods=["GET", "POST"])
 def delete(id):

@@ -104,20 +104,40 @@
         </audio>
 
         <div class="wrapper">
-        <form class="demoForm">
+        <form class="demoForm" action="/play/{{data[0]}}" method="post">
           <div class="rating rating-large" dir="rtl">
-            <input type="radio" name="rate" id="5" value="5" {% if rating == '5' %} checked {% endif %} />
+            {% if rating == 5 %}
+            <input type="radio" name="rate" id="5" value="5"  checked />
+            {% else %}
+            <input type="radio" name="rate" id="5" value="5"/>
+            {% endif %} 
             <label class="rating-label" for="5">&#9734</label>
-            <input type="radio" name="rate" id="4" value="4" {% if rating == '4' %} checked {% endif %}/>
+            {% if rating == 4 %}
+            <input type="radio" name="rate" id="4" value="4"  checked />
+            {% else %}
+            <input type="radio" name="rate" id="4" value="4"/>
+            {% endif %} 
             <label class="rating-label" for="4">&#9734</label>
-            <input type="radio" name="rate" id="3" value="3" {% if rating == '3' %} checked {% endif %}/>
+            {% if rating == 3 %}
+            <input type="radio" name="rate" id="3" value="3"  checked />
+            {% else %}
+            <input type="radio" name="rate" id="3" value="3"/>
+            {% endif %} 
             <label class="rating-label" for="3">&#9734</label>
-            <input type="radio" name="rate" id="2" value="2" {% if rating == '2' %} checked {% endif %}/>
+            {% if rating == 2 %}
+            <input type="radio" name="rate" id="2" value="2"  checked />
+            {% else %}
+            <input type="radio" name="rate" id="2" value="2"/>
+            {% endif %} 
             <label class="rating-label" for="2">&#9734</label>
-            <input type="radio" name="rate" id="1" value="1" {% if rating == '1' %} checked {% endif %}/>
+            {% if rating == 1 %}
+            <input type="radio" name="rate" id="1" value="1"  checked />
+            {% else %}
+            <input type="radio" name="rate" id="1" value="1"/>
+            {% endif %} 
             <label class="rating-label" for="1">&#9734</label>
           </div>
-          <button class="btn btn-outline-secondary" type="submit">Submit</button>
+          <button class="btn btn-outline-secondary btn-sm" type="submit">Submit</button>
         </form>
       </div>
         </div>
