@@ -366,10 +366,18 @@ def admin():
 
     titles = cursor.fetchall()
 
-    # Print the titles
     for i, title in enumerate(titles, start=1):
         print(f"{i}. {title[0]}")
 
+    cursor.execute("SELECT COUNT(*) FROM user")
+    user_count = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM creator")
+    creator_count = cursor.fetchone()[0]
+
+    print(f"User Count: {user_count}")
+    print(f"Creator Count: {creator_count}")
+    
     return render_template(
         "admin.html",
         chart_categories=chart_categories,
