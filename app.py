@@ -284,6 +284,7 @@ def admin():
         (current_date,),
     )
     genre_day_counts = cursor.fetchall()
+    print(genre_day_counts)
 
     genre_counts = {}
     for entry in genre_day_counts:
@@ -297,6 +298,11 @@ def admin():
 
     for genre, count in genre_counts.items():
         print(f"{genre}: {count}")
+    sorted_genre_counts = dict(sorted(genre_counts.items()))
+
+    # Convert the dictionary into separate lists for chart rendering
+    chart_categories = list(sorted_genre_counts.keys())
+    chart_data = list(sorted_genre_counts.values())
 
     current_year = datetime.now().strftime("%Y")
     months = [str(i).zfill(2) for i in range(1, 13)]  # Months from '01' to '12'
@@ -329,14 +335,14 @@ def admin():
 
     return render_template(
         "admin.html",
-        genre_counts=genre_counts,
+        chart_categories=chart_categories,
+        chart_data=chart_data,
         total_genres=total_genres,
         total_filenames=total_filenames,
         total_albums=total_albums,
     )
 
-
-@app.route("/creator", methods=["GET", "POST"])
+@app.route("/creator", methods=["GET","POST"])
 def creator():
     # i want to check if user's email is in the table of artist from database or not, if yes then store the artist id in session, and if not then render message on screen to choose genre through jinja syntax and then take input by post and then store it in the database and then store the artist id in session and now the user can upload songs, and if the user is already in the database then just store the artist id in session and then the user can upload songs
     # users email is already stored in session, we will check if the email is in the artist table or not when get request is done on this route
