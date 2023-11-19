@@ -330,6 +330,7 @@ def creatorsdash():
             print(
                 f"Creator ID: {creator_id[0]}, Album ID: {album_id[0]}, Album Name Count: {album_name_count}"
             )
+    print(ratings,dates)
     return render_template("creatordash.html", dates=dates, ratings=ratings, title_count=title_count, album_count=album_name_count)
 
 
