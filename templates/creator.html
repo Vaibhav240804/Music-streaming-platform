@@ -80,6 +80,51 @@
         >
           <i class="fas fa-plus m-4"></i>
         </a>
+        {% if error %}
+        <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endif %}
+
+        {% if message == "Please select a genre" %}
+        <form action="/creator" method="post">
+          <div class="form-outline mb-4" style="color: whitesmoke">
+            <input
+              type="text"
+              name="genre"
+              id="form5Example2"
+              class="form-control p-2"
+              style="color: whitesmoke"
+            />
+            <label
+              class="form-label"
+              for="form5Example2"
+              style="color: whitesmoke"
+              >Select genre</label
+            >
+          </div>
+          <div class="form-outline mb-4" style="color: whitesmoke">
+            <input
+              type="text"
+              name="artist"
+              id="form5Example2"
+              class="form-control p-2"
+              style="color: whitesmoke"
+            />
+            <label
+              class="form-label"
+              for="form5Example2"
+              style="color: whitesmoke"
+              >Artist name</label
+            >
+          </div>
+          <!-- Submit button -->
+          <button
+          type="submit"
+          class="btn btn-light btn-rounded btn-block mb-4"
+          >
+          Submit
+        </button>
+      </form>
+      {% endif %}
       </div>
     </main>
     <script

@@ -54,6 +54,14 @@ def login_user():
             print("Sorry for the inconvenience. Wrong credentials provided")
             return render_template("loginUser.html")
         else:
+            if "username" not in session:
+                session["username"] = username
+            if "email" not in session:
+                cursor.execute(f"SELECT email from user WHERE username = '{username}'")
+                email = cursor.fetchone()
+                if email is not None:
+                    email = email[0]
+                    session["email"] = email
             print("Login successful!")
             return redirect("/")
 
@@ -84,6 +92,8 @@ def register_user():
                         (name, username, email, password),
                     )
                     conn.commit()
+                    session["username"] = username
+                    session["email"] = email
                     # conn.close()
                     return render_template("loginUser.html")
     elif request.method == "GET":
@@ -148,7 +158,10 @@ def fetchedsongdata():
 @app.route("/uploadsong", methods=["GET", "POST"])
 def upload():
     if request.method == "GET":
-        return render_template("uploadsong.html")
+        if "email" in session:
+            return render_template("uploadsong.html")
+        else:
+            return render_template("uploadsong.html", message="Please login first")
     if request.method == "POST":
         title = request.form["title"]
         artist = request.form["artist"]
@@ -159,20 +172,32 @@ def upload():
         uploaded_file = request.files["file"]
         filename = uploaded_file.filename
         lyrics = request.form["lyrics"]
-
         cursor.execute("SELECT creator_id FROM creator WHERE artist = ?", (artist,))
         creator_id = cursor.fetchone()
 
         if creator_id is not None:
             creator_id = creator_id[0]
+        else:
+            return render_template("uploadsong.html", error="Please register as a creator first")
 
         cursor.execute(
-            "SELECT album_id FROM Albums WHERE Album_name = ?", (Album_name,)
+            "SELECT Album_ID FROM Albums WHERE Album_name = ? AND Artist_ID = ? ", (Album_name, creator_id,)
         )
         album_id = cursor.fetchone()
         if album_id is not None:
             album_id = album_id[0]
-
+        else:
+            # creating new album if album not found, giving attributes Artist_ID, Album_name and Release_Date ( same as songs date)
+            cursor.execute(
+                "INSERT INTO Albums (Artist_ID, Album_name, Release_Date) VALUES (?, ?, ?)",
+                (creator_id, Album_name, date,),
+            )
+            return render_template("uploadsong.html", message="Album not found, created one new by the name '"+Album_name+"' for you, now upload song with this album name if you want to add more songs to this album")
+        
+        if filename != "":
+            uploaded_file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+        else:
+            return render_template("uploadsong.html", message="Please upload a file")
         cursor.execute(
             "INSERT INTO uploadsong (title, artist, genre, duration, date, filename, lyrics, isFlagged, creator_id, album_id) VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, ?)",
             (
@@ -189,21 +214,8 @@ def upload():
         )
         conn.commit()
         # conn.close()
-        return render_template("home.html")
-    else:
-        if "file" not in request.files:
-            return "No file part"
+        return render_template("uploadsong.html", message="Song uploaded successfully")
 
-        file = request.files["file"]
-        if file.filename == "":
-            return render_template("uploadsong.html", error="No file selected")
-
-        if file:
-            filename = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
-            file.save(filename)
-            return render_template(
-                "uploadsong.html", message="File uploaded successfully"
-            )
 
 
 @app.route("/creatorsdash", methods=["GET"])
@@ -226,9 +238,45 @@ def admin():
     return render_template("admin.html")
 
 
-@app.route("/creator", methods=["GET"])
+@app.route("/creator", methods=["GET","POST"])
 def creator():
-    return render_template("creator.html")
+    # i want to check if user's email is in the table of artist from database or not, if yes then store the artist id in session, and if not then render message on screen to choose genre through jinja syntax and then take input by post and then store it in the database and then store the artist id in session and now the user can upload songs, and if the user is already in the database then just store the artist id in session and then the user can upload songs
+    # users email is already stored in session, we will check if the email is in the artist table or not when get request is done on this route
+    if request.method == "GET":
+        if "email" in session:
+            email = session["email"]
+            cursor.execute("SELECT creator_id FROM creator WHERE email = ?", (email,))
+            artist_id = cursor.fetchone()
+            if artist_id is not None:
+                artist_id = artist_id[0]
+                session["artist_id"] = artist_id
+                return render_template("creator.html")
+            else:
+                return render_template("creator.html", message="Please select a genre")
+        else:
+            return render_template("creator.html", error="Please login first")
+    else:
+        genre = request.form["genre"]
+        email = session["email"]
+        artist = request.form["artist"]
+        if artist == "":
+            return render_template("creator.html", error="Please enter artist name")
+        if genre == "":
+            return render_template("creator.html", error="Please select a genre")
+        cursor.execute(
+            "INSERT INTO creator (artist, email, genre) VALUES (?, ?, ?)",
+            (artist, email, genre),
+        )
+        conn.commit()
+        cursor.execute("SELECT creator_id FROM creator WHERE email = ?", (email,))
+        artist_id = cursor.fetchone()
+        if artist_id is not None:
+            artist_id = artist_id[0]
+            session["artist_id"] = artist_id
+            return render_template("creator.html")
+        else:
+            return render_template("creator.html", error="Error in selecting genre")
+
 
 
 @app.route("/tracklist", methods=["GET"])
