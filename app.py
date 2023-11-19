@@ -252,6 +252,26 @@ def admin():
     print(total_filenames, total_albums)
 
     print(total_genres)
+
+    cursor.execute(
+        "SELECT genre, date, COUNT(*) as genre_count FROM uploadsong WHERE date <= ? GROUP BY genre, date",
+        (current_date,),
+    )
+    genre_day_counts = cursor.fetchall()
+
+    genre_counts = {}
+    for entry in genre_day_counts:
+        genre = entry[0] 
+        count = entry[2] 
+
+        if genre not in genre_counts:
+            genre_counts[genre] = count
+        else:
+            genre_counts[genre] += count
+
+    for genre, count in genre_counts.items():
+        print(f"{genre}: {count}")
+
     return render_template(
         "admin.html",
         genre_counts=genre_counts,
