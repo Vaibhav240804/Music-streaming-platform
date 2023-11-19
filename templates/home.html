@@ -62,9 +62,9 @@
           {% for song in data %}
           <div class="card m-2 hover-shadow" style="width: 300px; height: 100%">
             <div class="card-body px-2">
-              <h5 class="card-title">{{ song["title"] }}</h5>
-              <p class="card-text">{{ song["artist"] }}</p>
-              <a type="button" href="/{{ song.filename }}" class="btn btn-light btn-rounded">Play</a>
+              <h5 class="card-title">{{ song[1] }}</h5>
+              <p class="card-text">{{ song[2] }}</p>
+              <a type="button" href="/play/{{ song[0] }}" class="btn btn-light btn-rounded">Play</a>
             </div>
           </div>
           {% endfor %}

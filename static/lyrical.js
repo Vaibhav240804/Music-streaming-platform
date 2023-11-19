@@ -5,7 +5,7 @@ demoForm.addEventListener(
     e.preventDefault();
     var demoInput = document.querySelector('input[name="rate"]:checked');
     if (!demoInput) {
-      console.log("пуста капуста...");
+      console.log("NO...");
     } else {
       console.log(demoInput.value);
     }

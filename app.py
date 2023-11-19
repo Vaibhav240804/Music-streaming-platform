@@ -144,7 +144,7 @@ def fetchedsongdata():
         conn = sqlite3.connect("user_data.db", check_same_thread=False)
         cursor = conn.cursor()
 
-        cursor.execute("SELECT title, artist, filename FROM uploadsong")
+        cursor.execute("SELECT * FROM uploadsong")
         data = cursor.fetchall()
         print(data)
         return render_template("home.html", data=data)
@@ -243,9 +243,26 @@ def uploaded_file(filename):
     return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
 
-@app.route("/play", methods=["GET"])
-def play():
-    return render_template("lyricsnplay.html")
+@app.route("/play/<id>", methods=["GET"])
+def play(id):
+    cursor.execute("SELECT * FROM uploadsong WHERE uploadsong_id = ?", (id,))
+    data = cursor.fetchone()
+    # also want to find rating of this song given by this user if any ->
+    # if yes then display the rating given by the user
+
+    if "username" in session:
+        username = session["username"]
+        cursor.execute(
+            "SELECT rating FROM Likes WHERE username = ? AND uploadsong_id = ?",
+            (username, id),
+        )
+        rating = cursor.fetchone()
+        if rating is not None:
+            rating = rating[0]
+            return render_template("lyricsnplay.html", data=data, rating=rating)
+        else:
+            return render_template("lyricsnplay.html", data=data)
+    return render_template("lyricsnplay.html", data=data)
 
 
 @app.route("/admin", methods=["GET"])

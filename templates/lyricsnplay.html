@@ -56,7 +56,7 @@
               <a class="nav-link" href="/creator">Creators account</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link">log out</a>
+              <a class="nav-link" href="/logout">log out</a>
             </li>
           </ul>
           <form class="d-flex input-group w-auto">
@@ -94,27 +94,27 @@
           <div
           class="d-flex flex-row align-items-center justify-content-between"
           >
-            <h4>creator</h4>
-            <span>date</span>
+            <h4>{{data[2]}}</h4>
+            <span>{{data[5]}}</span>
           </div>
         </div>
         <audio controls class="custom-audio">
-          <source src="{{ url_for('uploaded_file', filename='audio1.mp3') }}" type="audio/mpeg">
+          <source src="{{ url_for('uploaded_file', filename= data[6]) }}" type="audio/mpeg">
           Your browser does not support the audio element.
         </audio>
 
         <div class="wrapper">
         <form class="demoForm">
           <div class="rating rating-large" dir="rtl">
-            <input type="radio" name="rate" id="5" value="5"/>
+            <input type="radio" name="rate" id="5" value="5" {% if rating == '5' %} checked {% endif %} />
             <label class="rating-label" for="5">&#9734</label>
-            <input type="radio" name="rate" id="4" value="4"/>
+            <input type="radio" name="rate" id="4" value="4" {% if rating == '4' %} checked {% endif %}/>
             <label class="rating-label" for="4">&#9734</label>
-            <input type="radio" name="rate" id="3" value="3"/>
+            <input type="radio" name="rate" id="3" value="3" {% if rating == '3' %} checked {% endif %}/>
             <label class="rating-label" for="3">&#9734</label>
-            <input type="radio" name="rate" id="2" value="2"/>
+            <input type="radio" name="rate" id="2" value="2" {% if rating == '2' %} checked {% endif %}/>
             <label class="rating-label" for="2">&#9734</label>
-            <input type="radio" name="rate" id="1" value="1"/>
+            <input type="radio" name="rate" id="1" value="1" {% if rating == '1' %} checked {% endif %}/>
             <label class="rating-label" for="1">&#9734</label>
           </div>
           <button class="btn btn-outline-secondary" type="submit">Submit</button>
@@ -122,7 +122,7 @@
       </div>
         </div>
       <div class="container mt-4 p-4 border border-dark rounded ">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores necessitatibus voluptates ducimus incidunt illum velit provident ut labore fugiat magni repudiandae atque, beatae nam corporis cupiditate eaque, eius voluptate earum nisi. Consequuntur eum nesciunt minus quibusdam. Provident ab mollitia debitis iure qui velit odio rerum nihil. Porro corporis accusamus ex? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae suscipit, reiciendis error ea, deleniti corporis dolore optio minus illo harum exercitationem natus fuga maiores doloremque quam neque, tempore consequuntur saepe? Dolores minima consequuntur voluptate est eius dicta eligendi laboriosam, sed, quo ex laudantium ipsum enim ut! Aspernatur, fuga doloremque nisi architecto laboriosam possimus consectetur ullam impedit omnis velit. Ipsum blanditiis molestias fugit dolores! Voluptas sunt rerum fugiat quis ipsam quod maiores! Voluptate perspiciatis eum incidunt inventore consequuntur aliquid beatae quae doloremque dignissimos mollitia architecto possimus tenetur, optio itaque expedita dolorem placeat ab provident quia, quo dolores harum ad? Temporibus, dolores?
+        {{data[7]}}
       </div>
       <div></div>
     </div>
