@@ -9,6 +9,7 @@ from flask import (
     flash,
     session,
 )
+from datetime import datetime
 import sys
 import sqlite3
 import os
@@ -223,7 +224,24 @@ def play():
 
 @app.route("/admin", methods=["GET"])
 def admin():
-    return render_template("admin.html")
+    current_date = datetime.now().strftime("%Y-%m-%d")
+
+    # Query to get genre counts
+    cursor.execute(
+        "SELECT genre, COUNT(*) as genre_count FROM uploadsong WHERE date <= ? GROUP BY genre",
+        (current_date,),
+    )
+    genre_counts = cursor.fetchall()
+
+    # Query to get the total number of genres
+    cursor.execute(
+        "SELECT COUNT(DISTINCT genre) as total_genres FROM uploadsong WHERE date <= ?",
+        (current_date,),
+    )
+    total_genres = cursor.fetchone()[0]  # Access the count using index 0
+
+    print(total_genres)
+    return render_template("admin.html", genre_counts=genre_counts, total_genres=total_genres)
 
 
 @app.route("/creator", methods=["GET"])
@@ -301,7 +319,7 @@ def homepage():
 # admin dash kiti genre aataparyant aale || no of filenames from uploasong || total albums from album_id Albums
 # day wise eka genre madhe kiti songs aahet till that date or kahipn
 
-#   aajchya data time chya saglya entries retrieve eka track id nusar group by or order by tya track id sathi total rating 
+#   aajchya data time chya saglya entries retrieve eka track id nusar group by or order by tya track id sathi total rating
 
 # date nusar  group by uploadsong table tya particular date sathi total number of tracks and albums
 
