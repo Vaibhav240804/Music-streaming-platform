@@ -254,6 +254,18 @@ def creatorsdash():
     for date, average_rating in average_ratings.items():
         print(f"Date: {date}, Average Rating: {average_rating}")
 
+    cursor.execute("SELECT creator_id FROM creator")
+
+    creator_ids = cursor.fetchall()
+
+    for creator_id in creator_ids:
+        cursor.execute(
+            "SELECT COUNT(title) FROM uploadsong WHERE creator_id = ?", creator_id
+        )
+
+    title_count = cursor.fetchone()[0]
+
+    print(f"Creator ID: {creator_id[0]}, Songs Count: {title_count}")
     return render_template("creatordash.html")
 
 
