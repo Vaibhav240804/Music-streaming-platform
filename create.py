@@ -108,7 +108,7 @@ cursor = conn.cursor()
 # cursor.execute(sql_query)
 # try:
 #     cursor.execute(
-#         "INSERT INTO Likes (username, uploadsong_id, Rating, Like_Date_Time) VALUES ('test1234', 5, 4, '2023-11-19 00:12:23')"
+#         "INSERT INTO Likes (username, uploadsong_id, Rating, Like_Date_Time) VALUES ('test123', 1, 4, '2023-11-12 00:12:23')"
 #     )
 #     conn.commit()
 # except Exception as e:
