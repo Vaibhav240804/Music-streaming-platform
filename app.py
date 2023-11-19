@@ -158,9 +158,12 @@ def fetchedsongdata():
             cursor.execute(
                 "SELECT * FROM uploadsong WHERE uploadsong_id = ?", (uploadsong_id,)
             )
-            # we also want to append avg rating of each song in songs list as follows 
+            # we also want to append avg rating of each song in songs list as follows
             song = cursor.fetchone()
-            cursor.execute("SELECT AVG(rating) FROM Likes WHERE uploadsong_id = ?", (uploadsong_id,))
+            cursor.execute(
+                "SELECT AVG(rating) FROM Likes WHERE uploadsong_id = ?",
+                (uploadsong_id,),
+            )
             avg_rating = cursor.fetchone()
             if avg_rating is not None:
                 avg_rating = avg_rating[0]
@@ -183,8 +186,6 @@ def fetchedsongdata():
             songs.append(unrated_song)
         print(songs)
         return render_template("home.html", data=songs)
-
-
 
     except Exception as e:
         return f"Error: {str(e)}"
@@ -327,6 +328,11 @@ def creatorsdash():
 @app.route("/uploads/<filename>", methods=["GET"])
 def uploaded_file(filename):
     return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
+
+
+@app.route("/useraccount", methods=["GET"])
+def useraccount():
+    return render_template("useraccount.html")
 
 
 @app.route("/search", methods=["POST"])
