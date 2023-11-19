@@ -274,25 +274,90 @@ def uploaded_file(filename):
     return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
 
-@app.route("/play/<id>", methods=["GET"])
-def play(id):
-    cursor.execute("SELECT * FROM uploadsong WHERE uploadsong_id = ?", (id,))
-    data = cursor.fetchone()
-    # also want to find rating of this song given by this user if any ->
-    # if yes then display the rating given by the user
-
-    if "username" in session:
-        username = session["username"]
+@app.route("/search", methods=["POST"])
+def search():
+    if request.method == "POST":
+        search = request.form["search"]
         cursor.execute(
-            "SELECT rating FROM Likes WHERE username = ? AND uploadsong_id = ?",
-            (username, id),
+            "SELECT * FROM uploadsong WHERE title LIKE ? OR artist LIKE ?",
+            ("%" + search + "%", "%" + search + "%"),
         )
-        rating = cursor.fetchone()
-        if rating is not None:
-            rating = rating[0]
-            return render_template("lyricsnplay.html", data=data, rating=rating)
-        else:
-            return render_template("lyricsnplay.html", data=data)
+        data = cursor.fetchall()
+        print(data)
+        return render_template("home.html", data=data)
+
+
+@app.route("/adminsearch", methods=["POST"])
+def adminsearch():
+    search = request.form["adminsearch"]
+    # we want to exclude those songs from this adminflag.html template which are not similar to my search query, so code will be same as tracklist route
+
+    cursor.execute(
+        "SELECT DISTINCT genre FROM uploadsong WHERE title LIKE ? OR artist LIKE ?",
+        ("%" + search + "%", "%" + search + "%"),
+    )
+    genres = cursor.fetchall()
+    genres = [genre[0] for genre in genres]
+    
+    genre_songs = {}
+    for genre in genres:
+        cursor.execute(
+            "SELECT * FROM uploadsong WHERE genre = ? AND title LIKE ? OR artist LIKE ?",
+            (genre, "%" + search + "%", "%" + search + "%"),
+        )
+        songs = cursor.fetchall()
+        songs = [song for song in songs]
+        genre_songs[genre] = songs
+    
+    return render_template("adminflag.html", genresnsongs=genre_songs)
+
+        
+
+
+@app.route("/play/<id>", methods=["GET","POST"])
+def play(id):
+    if request.method == "GET":
+        cursor.execute("SELECT * FROM uploadsong WHERE uploadsong_id = ?", (id,))
+        data = cursor.fetchone()
+        if "username" in session:
+            username = session["username"]
+            cursor.execute(
+                "SELECT rating FROM Likes WHERE username = ? AND uploadsong_id = ?",
+                (username, id),
+            )
+            rating = cursor.fetchone()
+            if rating is not None:
+                rating = rating[0]
+                return render_template("lyricsnplay.html", data=data, rating=rating)
+            else:
+                return render_template("lyricsnplay.html", data=data)
+    else:
+        print("Received rating data from client")
+        rating = request.form["rate"] 
+        print(f"Received rating: {rating}")
+        # save this to database if present already by this user then update else insert
+        if "username" in session:
+            username = session["username"]
+            cursor.execute(
+                "SELECT rating FROM Likes WHERE username = ? AND uploadsong_id = ?",
+                (username, id),
+            )
+            rating_data = cursor.fetchone()
+            if rating_data is None:
+                # i want to insert rating, uploadsong_id, username and like_date_time(which will be current date and time)
+                cursor.execute(
+                    "INSERT INTO Likes (rating, uploadsong_id, username, Like_Date_Time) VALUES (?, ?, ?, datetime('now'))",
+                    (rating, id, username),
+                )
+                conn.commit()
+            else:
+                # i want to update rating and like_date_time(which will be current date and time)
+                cursor.execute(
+                    "UPDATE Likes SET rating = ?, Like_Date_Time = datetime('now') WHERE username = ? AND uploadsong_id = ?",
+                    (rating, username, id),
+                )
+                conn.commit()
+            return redirect("/play/" + id)
     return render_template("lyricsnplay.html", data=data)
 
 
@@ -479,12 +544,6 @@ def creator():
 @app.route("/tracklist", methods=["GET", "POST"])
 def tracklist():
     if request.method == "GET":
-        # i want to create a list with key as genre and value as list of songs in that genre
-        # we will do it as
-        # first we will fetch all the genres from the database
-        # then we will iterate over the genres and for each genre we will fetch all the songs in that genre
-        # we will create a dictionary with key as genre and value as list of songs in that genre as follows
-
         cursor.execute("SELECT DISTINCT genre FROM uploadsong")
         genres = cursor.fetchall()
         genres = [genre[0] for genre in genres]
@@ -528,7 +587,6 @@ def flagunflag(id):
         else:
             return redirect("/tracklist")
     return redirect("/tracklist")
-
 
 @app.route("/delete/<id>", methods=["GET", "POST"])
 def delete(id):

@@ -86,16 +86,19 @@
         <h3>Tracks</h3>
         <div class="w-20">
           <div class="input-group">
-            <input
+            <form action="/adminsearch" method="post" class="input-group">
+              <input
               type="search"
               class="form-control rounded w-20"
               placeholder="Search"
               aria-label="Search"
+              name="adminsearch"
               aria-describedby="search-addon"
             />
-            <button type="button" class="mx-2 p-1 btn btn-outline-primary">
+            <button type="submit" class="mx-2 p-1 btn btn-outline-primary">
               search
             </button>
+            </form>
           </div>
         </div>
       </div>

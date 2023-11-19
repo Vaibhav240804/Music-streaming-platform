@@ -37,9 +37,9 @@
             <a class="nav-link" href="/logout">log out</a>
           </li>
         </ul>
-        <form class="d-flex input-group w-auto">
-          <input type="search" class="form-control" placeholder="Type query" aria-label="Search" />
-          <button class="btn btn-outline-primary" type="button" data-mdb-ripple-color="dark">
+        <form class="d-flex input-group w-auto" action="/search" method="post">
+          <input type="search" class="form-control" name="search" placeholder="Type query" aria-label="Search" />
+          <button class="btn btn-outline-primary" type="submit" data-mdb-ripple-color="dark">
             Search
           </button>
         </form>
