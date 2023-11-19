@@ -144,10 +144,8 @@ def fetchedsongdata():
     try:
         conn = sqlite3.connect("user_data.db", check_same_thread=False)
         cursor = conn.cursor()
-        # we will send data to template of all songs in descending order of songs avg rating, ratings resides in likes table, ih this table user have multiple ratings for a song then we will take average of all ratings and then sort the songs in descending order of avg ratings and we will do this for all songs
-
         cursor.execute(
-            "SELECT uploadsong_id FROM Likes GROUP BY uploadsong_id ORDER BY AVG(rating) DESC"
+            "SELECT uploadsong_id,AVG(rating) FROM Likes GROUP BY uploadsong_id ORDER BY AVG(rating) DESC"
         )
         uploadsong_ids = cursor.fetchall()
         uploadsong_ids = [uploadsong_id[0] for uploadsong_id in uploadsong_ids]
@@ -160,8 +158,22 @@ def fetchedsongdata():
             cursor.execute(
                 "SELECT * FROM uploadsong WHERE uploadsong_id = ?", (uploadsong_id,)
             )
+            # we also want to append avg rating of each song in songs list as follows 
             song = cursor.fetchone()
-            songs.append(song)
+            cursor.execute("SELECT AVG(rating) FROM Likes WHERE uploadsong_id = ?", (uploadsong_id,))
+            avg_rating = cursor.fetchone()
+            if avg_rating is not None:
+                avg_rating = avg_rating[0]
+                song = list(song)
+                song.append(avg_rating)
+                song = tuple(song)
+                songs.append(song)
+            else:
+                song = list(song)
+                song.append(0)
+                song = tuple(song)
+                songs.append(song)
+        print(songs)
         # now we will append rest songs which are unrated
         cursor.execute(
             "SELECT * FROM uploadsong WHERE uploadsong_id NOT IN (SELECT uploadsong_id FROM Likes)"
@@ -171,7 +183,8 @@ def fetchedsongdata():
             songs.append(unrated_song)
         print(songs)
         return render_template("home.html", data=songs)
-        
+
+
 
     except Exception as e:
         return f"Error: {str(e)}"
