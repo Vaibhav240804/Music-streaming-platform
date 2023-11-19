@@ -9,6 +9,7 @@ from flask import (
     flash,
     session,
 )
+from collections import defaultdict
 from datetime import datetime
 import sys
 import sqlite3
@@ -235,6 +236,24 @@ def upload():
 
 @app.route("/creatorsdash", methods=["GET"])
 def creatorsdash():
+    cursor.execute(
+        "SELECT strftime('%Y-%m-%d', Like_Date_Time) as like_date, Rating FROM Likes"
+    )
+
+    likes_data = cursor.fetchall()
+
+    ratings_by_date = defaultdict(list)
+
+    for like_entry in likes_data:
+        ratings_by_date[like_entry[0]].append(like_entry[1])
+
+    average_ratings = {
+        date: sum(ratings) / len(ratings) for date, ratings in ratings_by_date.items()
+    }
+
+    for date, average_rating in average_ratings.items():
+        print(f"Date: {date}, Average Rating: {average_rating}")
+
     return render_template("creatordash.html")
 
 
@@ -402,7 +421,7 @@ def admin():
 
     print(f"User Count: {user_count}")
     print(f"Creator Count: {creator_count}")
-    
+
     return render_template(
         "admin.html",
         chart_categories=chart_categories,
