@@ -746,6 +746,12 @@ def login_admin():
             print("Sorry for the inconvenience. Wrong credentials provided")
             return render_template("loginAdmin.html")
         else:
+            # Retrieve isAdmin for the newly registered admin
+            cursor.execute("SELECT isAdmin FROM admin WHERE username=?", (username,))
+            is_admin = cursor.fetchone()
+
+            # Store isAdmin in the session
+            session["isAdmin"] = is_admin[0] if is_admin else 0
             print("Login successful!")
             return redirect("/admin")
 
