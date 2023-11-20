@@ -22,16 +22,12 @@
         <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"
           aria-controls="pills-login" aria-selected="true">Login</a>
       </li>
-      <li class="nav-item" role="presentation">
-        <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="#pills-register" role="tab"
-          aria-controls="pills-register" aria-selected="false">Register</a>
-      </li>
     </ul>
     <!-- Pills navs -->
 
     <!-- Pills content -->
     <div class="tab-content">
-      <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+      <div class="tab-pane fade show active" id="pills-login" >
         <form method="post" action="/loginadmin">
           <div class="text-center mb-3"></div>
 
@@ -65,67 +61,13 @@
           <button type="submit" class="btn btn-primary btn-block mb-4">
             Sign in
           </button>
-          <button class="btn btn-primary btn-block mb-3">
-            <a style="color: aliceblue;" href="/loginuser">Login as User</a>
-          </button>
+          <a href="/loginuser" class="btn btn-primary btn-block mb-3">
+            Login as User
+        </a>
           <!-- Register buttons -->
           <div class="text-center">
 
           </div>
-        </form>
-      </div>
-      <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
-        <form method="post" action="/registeradmin">
-          <div class="text-center mb-3"></div>
-          <!-- Name input -->
-          <div class="form-outline mb-4">
-            <input style="color: aliceblue;" type="text" name="name" id="registerName" class="form-control" />
-            <label class="form-label" for="registerName">Name</label>
-          </div>
-
-          <!-- Username input -->
-          <div class="form-outline mb-4">
-            <input style="color: aliceblue;" type="text" name="username" id="registerUsername" class="form-control" />
-            <label class="form-label" for="registerUsername">Username</label>
-          </div>
-
-          <!-- Email input -->
-          <div class="form-outline mb-4">
-            <input style="color: aliceblue;" type="email" name="email" id="registerEmail" class="form-control" />
-            <label class="form-label" for="registerEmail">Email</label>
-          </div>
-
-          <!-- Password input -->
-          <div class="form-outline mb-4">
-            <input style="color: aliceblue;" type="password" name="password" id="registerPassword"
-              class="form-control" />
-            <label class="form-label" for="registerPassword">Password</label>
-          </div>
-
-          <!-- Repeat Password input -->
-          <!-- <div class="form-outline mb-4">
-              <input
-                type="password"
-                id="registerRepeatPassword"
-                class="form-control"
-              />
-              <label class="form-label" for="registerRepeatPassword"
-                >Repeat password</label
-              >
-            </div> -->
-
-          <!-- Checkbox -->
-          <div class="form-check d-flex justify-content-center mb-4">
-
-          </div>
-
-          <!-- Submit button -->
-          <button type="submit" class="btn btn-primary btn-block mb-3">
-            Sign up
-          </button>
-          <button class="btn btn-primary btn-block mb-3">
-            <a style="color: aliceblue;" href="/loginuser">Register as User</a>
-          </button>
         </form>
       </div>
     </div>

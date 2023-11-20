@@ -32,6 +32,16 @@
     <!-- Pills content -->
     <div class="tab-content">
       <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+          {{ error }}
+        </div>
+        {% endif %}
+        {% if message %}
+        <div class="alert alert-success" role="alert">
+          {{ message }}
+        </div>
+        {% endif %}
         <form method="post" action="/loginuser">
           <div class="text-center mb-3"></div>
 
@@ -121,9 +131,6 @@
           <!-- Submit button -->
           <button type="submit" class="btn btn-primary btn-block mb-3">
             Sign up
-          </button>
-          <button class="btn btn-primary btn-block mb-3">
-            <a style="color: aliceblue;" href="/loginadmin">Register as Admin</a>
           </button>
         </form>
       </div>
