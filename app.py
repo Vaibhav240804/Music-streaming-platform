@@ -141,7 +141,6 @@ def fetch_album(id):
     songs = [song for song in songs]
     cursor.execute("SELECT Album_name FROM Albums WHERE Album_ID = ?", (id,))
     album_name = cursor.fetchone()[0]
-    print(album_name)
     return render_template("userfetchesalbum.html", songs=songs, album_name=album_name)
 
 
@@ -179,13 +178,16 @@ def create_playlist():
                     username,
                 ),
             )
+            conn.commit()
+
             cursor.execute(
-                "SELECT playlist_id FROM Playlists WHERE name = ? AND username = ?",
+                "SELECT playlist_ID FROM Playlists WHERE name = ? AND username = ?",
                 (
                     playlist_name,
                     username,
                 ),
             )
+
             playlist_id = cursor.fetchone()[0]
             for song in songs:
                 cursor.execute(
@@ -216,13 +218,11 @@ def fetchedsongdata():
         print(uploadsong_ids)
         print("\n")
 
-        # now we will fetch all the songs from uploadsong table in the order of uploadsong_ids
         songs = []
         for uploadsong_id in uploadsong_ids:
             cursor.execute(
                 "SELECT * FROM uploadsong WHERE uploadsong_id = ?", (uploadsong_id,)
             )
-            # we also want to append avg rating of each song in songs list as follows
             song = cursor.fetchone()
             cursor.execute(
                 "SELECT AVG(rating) FROM Likes WHERE uploadsong_id = ?",
@@ -241,7 +241,6 @@ def fetchedsongdata():
                 song = tuple(song)
                 songs.append(song)
         print(songs)
-        # now we will append rest songs which are unrated
         cursor.execute(
             "SELECT * FROM uploadsong WHERE uploadsong_id NOT IN (SELECT uploadsong_id FROM Likes)"
         )
@@ -252,18 +251,23 @@ def fetchedsongdata():
 
         cursor.execute("SELECT * FROM Albums")
         albums_data = cursor.fetchall()
+        albums_data = [album for album in albums_data]
+        print(albums_data)
+        for album in albums_data:
+            cursor.execute(
+                "SELECT * FROM uploadsong WHERE album_id = ?", (album[0],)
+            )
+            album_data = cursor.fetchone()
+            if album_data is None:
+                albums_data.remove(album)
 
         cursor.execute("SELECT DISTINCT genre FROM uploadsong")
         genre_data = cursor.fetchall()
-
-        # Fetch artist and date from uploadsong table
         cursor.execute("SELECT DISTINCT artist FROM uploadsong")
         artist_date_data = cursor.fetchall()
 
         albums_data = [album for album in albums_data]
         print(albums_data)
-
-        # lets fetch playlists created by user
         username = session["username"]
         cursor.execute(
             "SELECT Playlist_ID, name FROM Playlists WHERE username = ?", (username,)
@@ -705,8 +709,6 @@ def admin():
 
 @app.route("/creator", methods=["GET", "POST"])
 def creator():
-    # i want to check if user's email is in the table of artist from database or not, if yes then store the artist id in session, and if not then render message on screen to choose genre through jinja syntax and then take input by post and then store it in the database and then store the artist id in session and now the user can upload songs, and if the user is already in the database then just store the artist id in session and then the user can upload songs
-    # users email is already stored in session, we will check if the email is in the artist table or not when get request is done on this route
     if request.method == "GET":
         if "email" in session:
             email = session["email"]
@@ -866,18 +868,6 @@ def register_admin():
 
     # Redirect to login page after successful registration
     return redirect("/loginuser")
-
-
-# admin dash kiti genre aataparyant aale || no of filenames from uploasong || total albums from album_id Albums
-# day wise eka genre madhe kiti songs aahet till that date or kahipn
-
-# aajchya data time chya saglya entries retrieve eka track id nusar group by or order by tya track id sathi total rating
-
-# date nusar  group by uploadsong table tya particular date sathi total number of tracks and albums
-
-# creator dash
-# creator_id = uploadsong table madhe jaun select uploadsong id je related aahe selected creator id sobat
-# likes table madhe trackid
 
 
 if __name__ == "__main__":

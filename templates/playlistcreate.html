@@ -88,6 +88,12 @@
         </div>
         {% endif %}
         <br>
+        {% if message %}
+        <div class="alert alert-success" role="alert">
+          {{ message }}
+        </div>
+        {% endif %}
+        <br>
         <hr />
       <form id="playlistForm" action="/createplaylist" method="post">
         <div class="mb-3">
