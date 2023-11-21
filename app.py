@@ -149,7 +149,7 @@ def fetch_album(id):
 def create_playlist():
     if request.method == "GET":
         if "username" in session:
-            # fetch all songs from uploadsong table only their id and title
+            # Fetch all songs from uploadsong table only their id and title
             cursor.execute("SELECT uploadsong_id, title FROM uploadsong")
             songs = cursor.fetchall()
             songs = [song for song in songs]
@@ -161,32 +161,48 @@ def create_playlist():
         if "username" not in session:
             return render_template("loginuser.html", message="Please login first")
 
-        username = session["username"]
+        username = session.get("username")  # Use .get() to avoid KeyError
+        if username is None:
+            return render_template(
+                "loginuser.html", message="Username not found in session"
+            )
+
         playlist_name = request.form["playlist_name"]
         songs = request.form.getlist("songs")
-        print(songs)
-        cursor.execute("SELECT name FROM Playlists WHERE name = ?", (playlist_name,))
-        playlist_name_data = cursor.fetchone()
-        if playlist_name_data is not None:
+
+        if not playlist_name:
+            return render_template("error.html", message="Playlist name is required")
+
+        if not songs:
             return render_template(
-                "playlistcreate.html", message="Playlist name already exists"
+                "error.html", message="Select at least one song for the playlist"
             )
-        else:
+
+        print("Username:", username)
+        print("Playlist Name:", playlist_name)
+        print("Selected Songs:", songs)
+
+        try:
+            # Insert into Playlists table
             cursor.execute(
-                "INSERT INTO Playlists (name, username) VALUES (?,?)",
+                "INSERT INTO Playlists (Name, username) VALUES (?,?)",
                 (
                     playlist_name,
                     username,
                 ),
             )
+
+            # Get the Playlist_ID for the newly inserted playlist
             cursor.execute(
-                "SELECT playlist_id FROM Playlists WHERE name = ? AND username = ?",
+                "SELECT Playlist_ID FROM Playlists WHERE Name = ? AND username = ?",
                 (
                     playlist_name,
                     username,
                 ),
             )
             playlist_id = cursor.fetchone()[0]
+
+            # Insert into Playlist_Tracks table
             for song in songs:
                 cursor.execute(
                     "INSERT INTO Playlist_Tracks (Playlist_ID, uploadsong_id) VALUES (?,?)",
@@ -195,9 +211,19 @@ def create_playlist():
                         song,
                     ),
                 )
+
+            # Commit changes to the database
+            conn.commit()
+
             return render_template(
                 "playlistcreate.html", message="Playlist created successfully"
             )
+
+        except Exception as e:
+            print("Error:", str(e))
+            # Rollback changes in case of an error
+            conn.rollback()
+
     return render_template("playlistcreate.html")
 
 

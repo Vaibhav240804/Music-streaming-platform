@@ -81,7 +81,6 @@ cursor = conn.cursor()
 # sql_query = """CREATE TABLE Playlist_Tracks (
 #   Playlist_ID INT,
 #   uploadsong_id INT,
-#   PRIMARY KEY (Playlist_ID, uploadsong_id),
 #   FOREIGN KEY (Playlist_ID) REFERENCES Playlists(Playlist_ID),
 #   FOREIGN KEY (uploadsong_id) REFERENCES uploadsong(uploadsong_id)
 # )"""
@@ -108,7 +107,7 @@ cursor = conn.cursor()
 # cursor.execute(sql_query)
 # try:
 #     cursor.execute(
-#         "INSERT INTO Likes (username, uploadsong_id, Rating, Like_Date_Time) VALUES ('test123', 1, 4, '2023-11-12 00:12:23')"
+#         "INSERT INTO Playlists (Playlist_ID, username, Name) VALUES ('1', 'test123', 'name')"
 #     )
 #     conn.commit()
 # except Exception as e:
