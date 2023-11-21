@@ -148,7 +148,7 @@ def fetch_album(id):
 def create_playlist():
     if request.method == "GET":
         if "username" in session:
-            # fetch all songs from uploadsong table only their id and title
+            # Fetch all songs from uploadsong table only their id and title
             cursor.execute("SELECT uploadsong_id, title FROM uploadsong")
             songs = cursor.fetchall()
             songs = [song for song in songs]
@@ -160,28 +160,40 @@ def create_playlist():
         if "username" not in session:
             return render_template("loginuser.html", message="Please login first")
 
-        username = session["username"]
+        username = session.get("username")  # Use .get() to avoid KeyError
+        if username is None:
+            return render_template(
+                "loginuser.html", message="Username not found in session"
+            )
+
         playlist_name = request.form["playlist_name"]
         songs = request.form.getlist("songs")
-        print(songs)
-        cursor.execute("SELECT name FROM Playlists WHERE name = ?", (playlist_name,))
-        playlist_name_data = cursor.fetchone()
-        if playlist_name_data is not None:
+
+        if not playlist_name:
+            return render_template("error.html", message="Playlist name is required")
+
+        if not songs:
             return render_template(
-                "playlistcreate.html", message="Playlist name already exists"
+                "error.html", message="Select at least one song for the playlist"
             )
-        else:
+
+        print("Username:", username)
+        print("Playlist Name:", playlist_name)
+        print("Selected Songs:", songs)
+
+        try:
+            # Insert into Playlists table
             cursor.execute(
-                "INSERT INTO Playlists (name, username) VALUES (?,?)",
+                "INSERT INTO Playlists (Name, username) VALUES (?,?)",
                 (
                     playlist_name,
                     username,
                 ),
             )
             conn.commit()
-
+            # Get the Playlist_ID for the newly inserted playlist
             cursor.execute(
-                "SELECT playlist_ID FROM Playlists WHERE name = ? AND username = ?",
+                "SELECT Playlist_ID FROM Playlists WHERE Name = ? AND username = ?",
                 (
                     playlist_name,
                     username,
@@ -189,6 +201,8 @@ def create_playlist():
             )
 
             playlist_id = cursor.fetchone()[0]
+
+            # Insert into Playlist_Tracks table
             for song in songs:
                 cursor.execute(
                     "INSERT INTO Playlist_Tracks (Playlist_ID, uploadsong_id) VALUES (?,?)",
@@ -197,28 +211,42 @@ def create_playlist():
                         song,
                     ),
                 )
+                conn.commit()
+
+            # Commit changes to the database
+
             return render_template(
                 "playlistcreate.html", message="Playlist created successfully"
             )
-    return render_template("playlistcreate.html")
 
+        except Exception as e:
+            print("Error:", str(e))
+            # Rollback changes in case of an error
+            conn.rollback()
+
+    return render_template("playlistcreate.html")
 
 @app.route("/")
 def fetchedsongdata():
-    if "username" not in session:
-        return redirect("/loginuser")
     try:
+        if "username" not in session or session["username"] is None:
+            # Redirect to the login page if the username is not in the session or is None
+            return redirect("/loginuser")
+
         conn = sqlite3.connect("user_data.db", check_same_thread=False)
         cursor = conn.cursor()
+
         cursor.execute(
-            "SELECT uploadsong_id,AVG(rating) FROM Likes GROUP BY uploadsong_id ORDER BY AVG(rating) DESC"
+            "SELECT uploadsong_id, AVG(rating) FROM Likes GROUP BY uploadsong_id ORDER BY AVG(rating) DESC"
         )
         uploadsong_ids = cursor.fetchall()
         uploadsong_ids = [uploadsong_id[0] for uploadsong_id in uploadsong_ids]
         print(uploadsong_ids)
         print("\n")
 
+        # Initialize songs list
         songs = []
+
         for uploadsong_id in uploadsong_ids:
             cursor.execute(
                 "SELECT * FROM uploadsong WHERE uploadsong_id = ?", (uploadsong_id,)
@@ -229,45 +257,37 @@ def fetchedsongdata():
                 (uploadsong_id,),
             )
             avg_rating = cursor.fetchone()
-            if avg_rating is not None:
-                avg_rating = avg_rating[0]
+            avg_rating = avg_rating[0] if avg_rating is not None else 0
+
+            if song is not None:
                 song = list(song)
                 song.append(avg_rating)
                 song = tuple(song)
                 songs.append(song)
-            else:
-                song = list(song)
-                song.append(0)
-                song = tuple(song)
-                songs.append(song)
+
         print(songs)
+
+        # Fetch unrated songs
         cursor.execute(
             "SELECT * FROM uploadsong WHERE uploadsong_id NOT IN (SELECT uploadsong_id FROM Likes)"
         )
         unrated_songs = cursor.fetchall()
-        for unrated_song in unrated_songs:
-            songs.append(unrated_song)
+        songs.extend(unrated_songs)
+
         print(songs)
 
         cursor.execute("SELECT * FROM Albums")
         albums_data = cursor.fetchall()
-        albums_data = [album for album in albums_data]
-        print(albums_data)
-        for album in albums_data:
-            cursor.execute(
-                "SELECT * FROM uploadsong WHERE album_id = ?", (album[0],)
-            )
-            album_data = cursor.fetchone()
-            if album_data is None:
-                albums_data.remove(album)
 
         cursor.execute("SELECT DISTINCT genre FROM uploadsong")
         genre_data = cursor.fetchall()
+
         cursor.execute("SELECT DISTINCT artist FROM uploadsong")
         artist_date_data = cursor.fetchall()
 
         albums_data = [album for album in albums_data]
         print(albums_data)
+
         username = session["username"]
         cursor.execute(
             "SELECT Playlist_ID, name FROM Playlists WHERE username = ?", (username,)
@@ -283,6 +303,12 @@ def fetchedsongdata():
             artist_date_data=artist_date_data,
             playlists=playlists,
         )
+
+    except KeyError as key_error:
+        return f"KeyError: {str(key_error)}: 'username' key not found in session"
+    
+    except sqlite3.Error as sqlite_error:
+        return f"SQLite error: {str(sqlite_error)}"
 
     except Exception as e:
         return f"Error: {str(e)}"
@@ -346,6 +372,8 @@ def upload():
             )
 
         if filename != "":
+            filename = datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + filename
+            print(filename)
             uploaded_file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
         else:
             return render_template("uploadsong.html", message="Please upload a file")
@@ -366,7 +394,35 @@ def upload():
         conn.commit()
         # conn.close()
         return render_template("uploadsong.html", message="Song uploaded successfully")
+    
 
+@app.route("/genre/<id>", methods=["GET"])
+def genre(id):
+    # user explores genre with name = id, in this route user will be shown all songs in that genre
+    cursor.execute("SELECT * FROM uploadsong WHERE genre = ?", (id,))
+    songs = cursor.fetchall()
+    songs = [song for song in songs]
+    return render_template("usergenre.html", songs=songs,GenreName=id)
+
+@app.route("/playlist/<id>", methods=["GET"])
+def playlist(id):
+    if request.method == "GET":
+        if "username" in session:
+            # Fetch all songs from uploadsong table only their id and title
+            cursor.execute(
+                "SELECT uploadsong_id, title FROM uploadsong WHERE uploadsong_id IN (SELECT uploadsong_id FROM Playlist_Tracks WHERE Playlist_ID = ?)",
+                (id,),
+            )
+            songs = cursor.fetchall()
+            print(songs)
+            songs = [song for song in songs]
+            cursor.execute(
+                "SELECT name FROM Playlists WHERE Playlist_ID = ?", (id,)
+            )
+            PlaylistName = cursor.fetchone()[0]
+            return render_template("playlists.html", songs=songs, PlaylistName=PlaylistName)
+        else:
+            return render_template("loginuser.html", message="Please login first")
 
 @app.route("/creatorsdash", methods=["GET"])
 def creatorsdash():
@@ -464,15 +520,43 @@ def useraccount():
 @app.route("/search", methods=["POST"])
 def search():
     if request.method == "POST":
+        #we have to check for all possible matches in all songs, albums, playlists, genres and display results accordingly to home.html
         search = request.form["search"]
         cursor.execute(
+
             "SELECT * FROM uploadsong WHERE title LIKE ? OR artist LIKE ?",
             ("%" + search + "%", "%" + search + "%"),
         )
-        data = cursor.fetchall()
-        print(data)
-        return render_template("home.html", data=data)
-
+        songs = cursor.fetchall()
+        songs = [song for song in songs]
+        cursor.execute(
+            "SELECT * FROM Albums WHERE Album_name LIKE ?",
+            ("%" + search + "%",),
+        )
+        albums = cursor.fetchall()
+        albums = [album for album in albums]
+        cursor.execute(
+            "SELECT * FROM Playlists WHERE name LIKE ?",
+            ("%" + search + "%",),
+        )
+        playlists = cursor.fetchall()
+        playlists = [playlist for playlist in playlists]
+        cursor.execute(
+            "SELECT DISTINCT genre FROM uploadsong WHERE genre LIKE ?",
+            ("%" + search + "%",),
+        )
+        genres = cursor.fetchall()
+        genres = [genre[0] for genre in genres]
+        print(genres)
+        return render_template(
+            "home.html",
+            data=songs,
+            album_data=albums,
+            genre_data=genres,
+            playlists=playlists,
+        )
+    
+        
 
 @app.route("/adminsearch", methods=["POST"])
 def adminsearch():
@@ -751,8 +835,7 @@ def tracklist():
         cursor.execute("SELECT DISTINCT genre FROM uploadsong")
         genres = cursor.fetchall()
         genres = [genre[0] for genre in genres]
-        print(genres)
-
+        
         genre_songs = {}
         for genre in genres:
             cursor.execute("SELECT * FROM uploadsong WHERE genre = ?", (genre,))
