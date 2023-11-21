@@ -79,8 +79,9 @@ cursor = conn.cursor()
 # --------- playlists-track table -------
 
 # sql_query = """CREATE TABLE Playlist_Tracks (
-#   Playlist_ID INT PRIMARY KEY,
+#   Playlist_ID INT,
 #   uploadsong_id INT,
+#   PRIMARY KEY (Playlist_ID, uploadsong_id),
 #   FOREIGN KEY (Playlist_ID) REFERENCES Playlists(Playlist_ID),
 #   FOREIGN KEY (uploadsong_id) REFERENCES uploadsong(uploadsong_id)
 # )"""
