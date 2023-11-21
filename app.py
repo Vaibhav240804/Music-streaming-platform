@@ -434,7 +434,7 @@ def creatorsdash():
     creator_id = creator_ids[0]
     cursor.execute("SELECT * FROM uploadsong WHERE creator_id = ?", creator_id)
     songs = cursor.fetchall()
-    cursor.execute("SELECT * FROM Albums WHERE Artist_ID = ?", creator_id)
+    cursor.execute("SELECT * FROM Albums WHERE Album_ID = ?", creator_id)
     albums = cursor.fetchall()
     for creator_id in creator_ids:
         cursor.execute(
@@ -684,7 +684,8 @@ def admin():
     )
 
     top_ratings_ids = cursor.fetchall()
-
+    print("top rating ids")
+    print(top_ratings_ids)
     # Extract the uploadsong_id values from the result
     uploadsong_ids = [row[0] for row in top_ratings_ids]
 
