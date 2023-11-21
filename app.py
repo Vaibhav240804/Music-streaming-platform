@@ -85,7 +85,9 @@ def register_user():
             data = cursor.fetchone()
 
             if data:
-                return render_template("loginUser.html", error="Username already exists, login instead")
+                return render_template(
+                    "loginUser.html", error="Username already exists, login instead"
+                )
             else:
                 if not data:
                     cursor.execute(
@@ -96,7 +98,10 @@ def register_user():
                     session["username"] = username
                     session["email"] = email
                     # conn.close()
-                    return render_template("loginUser.html", message="Registration successful, please login")
+                    return render_template(
+                        "loginUser.html",
+                        message="Registration successful, please login",
+                    )
     elif request.method == "GET":
         return render_template("loginUser.html")
 
@@ -135,11 +140,11 @@ def fetch_album(id):
     songs = cursor.fetchall()
     songs = [song for song in songs]
     cursor.execute("SELECT Album_name FROM Albums WHERE Album_ID = ?", (id,))
-    album_name=cursor.fetchone()[0]
+    album_name = cursor.fetchone()[0]
     print(album_name)
     return render_template("userfetchesalbum.html", songs=songs, album_name=album_name)
 
-    
+
 @app.route("/createplaylist", methods=["GET", "POST"])
 def create_playlist():
     if request.method == "GET":
@@ -151,18 +156,16 @@ def create_playlist():
             return render_template("playlistcreate.html", songs=songs)
         else:
             return render_template("loginuser.html", message="Please login first")
-        
+
     if request.method == "POST":
         if "username" not in session:
             return render_template("loginuser.html", message="Please login first")
-        
+
         username = session["username"]
         playlist_name = request.form["playlist_name"]
         songs = request.form.getlist("songs")
         print(songs)
-        cursor.execute(
-            "SELECT name FROM Playlists WHERE name = ?", (playlist_name,)
-        )
+        cursor.execute("SELECT name FROM Playlists WHERE name = ?", (playlist_name,))
         playlist_name_data = cursor.fetchone()
         if playlist_name_data is not None:
             return render_template(
@@ -170,21 +173,32 @@ def create_playlist():
             )
         else:
             cursor.execute(
-                "INSERT INTO Playlists (name, username) VALUES (?,?)", (playlist_name,username,)
+                "INSERT INTO Playlists (name, username) VALUES (?,?)",
+                (
+                    playlist_name,
+                    username,
+                ),
             )
             cursor.execute(
-                "SELECT playlist_id FROM Playlists WHERE name = ? AND username = ?", (playlist_name,username,)
+                "SELECT playlist_id FROM Playlists WHERE name = ? AND username = ?",
+                (
+                    playlist_name,
+                    username,
+                ),
             )
             playlist_id = cursor.fetchone()[0]
             for song in songs:
                 cursor.execute(
-                    "INSERT INTO Playlist_Tracks (Playlist_ID, uploadsong_id) VALUES (?,?)", (playlist_id,song,)
-                )            
+                    "INSERT INTO Playlist_Tracks (Playlist_ID, uploadsong_id) VALUES (?,?)",
+                    (
+                        playlist_id,
+                        song,
+                    ),
+                )
             return render_template(
                 "playlistcreate.html", message="Playlist created successfully"
-            )   
+            )
     return render_template("playlistcreate.html")
-    
 
 
 @app.route("/")
@@ -251,7 +265,9 @@ def fetchedsongdata():
 
         # lets fetch playlists created by user
         username = session["username"]
-        cursor.execute("SELECT Playlist_ID, name FROM Playlists WHERE username = ?", (username,))
+        cursor.execute(
+            "SELECT Playlist_ID, name FROM Playlists WHERE username = ?", (username,)
+        )
         playlists = cursor.fetchall()
         playlists = [playlist for playlist in playlists]
 

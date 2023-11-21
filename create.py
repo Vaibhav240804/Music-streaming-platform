@@ -97,7 +97,7 @@ cursor = conn.cursor()
 #   FOREIGN KEY (uploadsong_id) REFERENCES uploadsong(uploadsong_id)
 # )"""
 
-# cursor.execute("DROP TABLE IF EXISTS Likes")
+# cursor.execute("DROP TABLE IF EXISTS Playlist_Tracks")
 
 
 # to clear all the data
