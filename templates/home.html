@@ -75,7 +75,7 @@
 
     <div class="w-100 d-flex flex-column align-items-end px-4 my-5">
       <div class="w-100 mb-4 d-flex flex-row align-items-center justify-content-between">
-        <span>Your albums</span>
+        <span>Albums</span>
       </div>
       <div
         class="scrolling-container w-100 vh-10 d-flex justify-content-start flex-row align-items-center overflow-x-scroll">
@@ -90,7 +90,31 @@
             <div class="card-body px-2">
               <h5 class="card-title">{{ album[0] }}</h5>
               <p class="card-text">Release Date: {{ album[1] }}</p>
-              <!-- Add any additional elements you want to display -->
+              <a type="button" href="/userfetchesalbum/{{album[0]}}" class="btn btn-light btn-rounded">Open album</a>
+            </div>
+          </div>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+    <div class="w-100 d-flex flex-column align-items-end px-4 my-5">
+      <div class="w-100 mb-4 d-flex flex-row align-items-center justify-content-between">
+        <span>Your Playlists</span><a href="/createplaylist">Create playlist</a>
+      </div>
+      <div
+        class="scrolling-container w-100 vh-10 d-flex justify-content-start flex-row align-items-center overflow-x-scroll">
+        <div class="h-100 d-flex justify-content-start flex-row align-items-center" style="
+              min-width: min-content;
+              max-width: max-content;
+              margin: 0 auto;
+              overflow-x: auto;
+            ">
+          {% for playlist in playlists %}
+          <div class="card m-2 hover-shadow" style="width: 300px; height: 100%">
+            <div class="card-body px-2">
+              <p class="card-text">{{ playlist[1] }}</p>
+              <a type="button" href="/userfetchesplaylist/{{playlist[0]}}" class="btn btn-light btn-rounded">Open playlist</a>
             </div>
           </div>
           {% endfor %}

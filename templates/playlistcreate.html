@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playlist Creation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='lyrical.css') }}"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='global.css') }}"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Music Stream</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-mdb-toggle="collapse"
+          data-mdb-target="#navbarTogglerDemo02"
+          aria-controls="navbarTogglerDemo02"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+        <div
+          class="collapse navbar-collapse px-2"
+          id="navbarTogglerDemo02"
+          style="color: whitesmoke"
+        >
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/creator">Creators Account</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Log Out</a>
+            </li>
+          </ul>
+          <form class="d-flex input-group w-auto">
+            <input
+              type="search"
+              class="form-control"
+              placeholder="Type query"
+              aria-label="Search"
+            />
+            <button
+              class="btn btn-outline-primary"
+              type="button"
+              data-mdb-ripple-color="dark"
+            >
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+      <h2>Create Playlist</h2>
+      <hr />
+      <br>
+      {% if error %}
+      <div class="alert alert-danger" role="alert">
+          {{ error }}
+        </div>
+        {% endif %}
+        <br>
+        <hr />
+      <form id="playlistForm" action="/createplaylist" method="post">
+        <div class="mb-3">
+          <label for="playlistName" class="form-label">Playlist Name</label>
+          <input type="text" name="playlist_name" class="form-control" id="playlistName" required />
+        </div>
+        <div class="mb-3">
+          <label for="songSelection" class="form-label">Select Songs</label>
+          <!-- Assuming songs are listed here dynamically -->
+          <select multiple name="songs" class="form-select" id="songSelection" required>
+            <!-- Songs listed here -->
+            {% for song in songs %}
+            <option value="{{ song[0] }}">{{ song[1] }}</option>
+            {% endfor %}
+            <!-- Additional songs -->
+          </select>
+        </div>
+        <button type="submit" class="btn btn-light">Create Playlist</button>
+      </form>
+    </div>
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
+    ></script>
+  </body>
+</html>
